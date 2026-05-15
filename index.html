@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mendelson Family Archive</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream: #F8F4EE; --warm-white: #FDFAF6; --brown: #5C3D2E; --dark-brown: #2C1810;
+  --gold: #B8860B; --gold-light: #F0D080; --muted: #8B7355; --border: #DDD5C8;
+  --card-bg: #FFFFFF; --tag-bg: #F0EBE3; --yt-red: #CC0000;
+  --highlight: #FFF8E1; --highlight-border: #F0D080;
+  --canonical-bg: #E8F5E9; --canonical-border: #A5D6A7; --canonical-text: #1B5E20;
+}
+body { font-family: 'Source Sans 3', sans-serif; background: var(--cream); color: var(--dark-brown); min-height: 100vh; }
+header { background: var(--dark-brown); color: var(--cream); padding: 3rem 2rem 2.5rem; text-align: center; position: relative; overflow: hidden; }
+header::before { content:''; position:absolute; top:0;left:0;right:0;bottom:0; background: repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(184,134,11,0.04) 40px,rgba(184,134,11,0.04) 41px); }
+.header-inner { position:relative; z-index:1; }
+header h1 { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,5vw,3.2rem); font-weight:700; letter-spacing:-0.5px; line-height:1.1; margin-bottom:0.5rem; }
+header h1 em { font-style:italic; color:var(--gold-light); }
+header p { font-size:0.95rem; color:rgba(248,244,238,0.6); font-weight:300; }
+.ornament { color:var(--gold); font-size:1rem; letter-spacing:8px; margin:0.75rem 0 0.5rem; opacity:0.7; }
+.container { max-width:960px; margin:0 auto; padding:2rem 1.5rem; }
+.stats-bar { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-bottom:2rem; }
+.stat-item { background:var(--warm-white); padding:1.1rem 1rem; text-align:center; }
+.stat-num { font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700; color:var(--brown); line-height:1; }
+.stat-label { font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--muted); margin-top:3px; }
+.tabs { display:flex; gap:4px; background:var(--warm-white); border:1px solid var(--border); border-radius:10px; padding:4px; margin-bottom:1.5rem; }
+.tab { flex:1; padding:9px 12px; border-radius:7px; border:none; background:transparent; font-family:'Source Sans 3',sans-serif; font-size:0.875rem; color:var(--muted); cursor:pointer; transition:all 0.15s; text-align:center; }
+.tab.active { background:var(--dark-brown); color:var(--gold-light); font-weight:600; }
+.tab:hover:not(.active) { background:var(--tag-bg); color:var(--brown); }
+.search-section { background:var(--warm-white); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1.5rem; }
+.search-full { width:100%; margin-bottom:10px; }
+.search-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:8px; }
+.input-wrap { position:relative; }
+.input-wrap svg { position:absolute; left:11px; top:50%; transform:translateY(-50%); color:var(--muted); pointer-events:none; }
+input[type="text"], select { width:100%; padding:9px 10px 9px 34px; border:1px solid var(--border); border-radius:8px; font-family:'Source Sans 3',sans-serif; font-size:0.9rem; background:white; color:var(--dark-brown); outline:none; transition:border-color 0.15s; }
+select { padding-left:10px; cursor:pointer; }
+input[type="text"]:focus, select:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(184,134,11,0.1); }
+.clear-btn { margin-top:6px; font-size:0.8rem; color:var(--muted); background:none; border:none; cursor:pointer; text-decoration:underline; font-family:'Source Sans 3',sans-serif; }
+.clear-btn:hover { color:var(--brown); }
+.results-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; }
+.results-count { font-size:0.85rem; color:var(--muted); }
+.sort-select { font-size:0.8rem; padding:5px 8px; border-radius:6px; border:1px solid var(--border); background:white; color:var(--brown); cursor:pointer; }
+.year-grid { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:1.5rem; }
+.year-chip { padding:6px 16px; border-radius:20px; border:1px solid var(--border); background:var(--warm-white); font-size:0.875rem; color:var(--brown); cursor:pointer; transition:all 0.15s; font-family:'Source Sans 3',sans-serif; }
+.year-chip:hover { background:var(--tag-bg); border-color:var(--gold); }
+.year-chip.active { background:var(--dark-brown); color:var(--gold-light); border-color:var(--dark-brown); font-weight:600; }
+.video-card { background:var(--card-bg); border:1px solid var(--border); border-radius:12px; margin-bottom:1rem; overflow:hidden; transition:box-shadow 0.2s,border-color 0.2s; }
+.video-card:hover { box-shadow:0 4px 18px rgba(92,61,46,0.08); border-color:#C8B99A; }
+.card-top { padding:1.1rem 1.25rem 1rem; cursor:pointer; user-select:none; }
+.card-header { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:8px; }
+.card-meta { display:flex; align-items:center; gap:6px; flex-shrink:0; }
+.year-badge { background:var(--dark-brown); color:var(--gold-light); font-size:0.72rem; font-weight:600; padding:3px 9px; border-radius:20px; white-space:nowrap; letter-spacing:0.5px; }
+.reel-badge { background:var(--tag-bg); color:var(--muted); font-size:0.72rem; padding:3px 9px; border-radius:20px; border:1px solid var(--border); white-space:nowrap; }
+.card-title { font-family:'Playfair Display',serif; font-size:1rem; font-weight:500; line-height:1.4; color:var(--dark-brown); flex:1; }
+.people-list { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:10px; }
+.person-tag { font-size:0.72rem; background:var(--tag-bg); color:var(--brown); padding:2px 8px; border-radius:20px; border:1px solid var(--border); }
+.person-tag.hl { background:var(--highlight); color:#7A5800; border-color:var(--highlight-border); font-weight:600; }
+/* Green tag = this is a canonical name that had duplicates merged into it */
+.person-tag.canonical { background:var(--canonical-bg); color:var(--canonical-text); border-color:var(--canonical-border); font-weight:600; }
+.card-preview { font-size:0.85rem; color:var(--muted); line-height:1.55; margin-bottom:10px; }
+.card-actions { display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+.watch-btn { display:inline-flex; align-items:center; gap:5px; background:var(--yt-red); color:white; text-decoration:none; font-size:0.78rem; font-weight:600; padding:5px 12px; border-radius:6px; transition:opacity 0.15s; }
+.watch-btn:hover { opacity:0.85; }
+.ts-btn { display:inline-flex; align-items:center; gap:4px; background:white; color:var(--brown); text-decoration:none; font-size:0.74rem; padding:4px 9px; border-radius:6px; border:1px solid var(--border); transition:background 0.15s; max-width:240px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.ts-btn:hover { background:var(--tag-bg); }
+.ts-time { font-weight:600; color:var(--muted); flex-shrink:0; font-size:0.72rem; }
+.expand-toggle { margin-left:auto; font-size:0.78rem; color:var(--gold); background:none; border:none; cursor:pointer; font-family:'Source Sans 3',sans-serif; display:flex; align-items:center; gap:3px; padding:4px 0; flex-shrink:0; }
+.card-desc { display:none; border-top:1px solid var(--border); background:#FDFAF6; padding:1.25rem; }
+.card-desc.open { display:block; }
+.desc-section-head { font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--muted); font-weight:600; margin-bottom:0.5rem; padding-bottom:4px; border-bottom:1px solid var(--border); }
+.desc-text { font-size:0.875rem; color:var(--muted); line-height:1.6; margin-bottom:0.5rem; }
+.desc-timestamps { display:flex; flex-direction:column; gap:5px; margin-top:0.25rem; }
+.desc-ts-row { display:flex; align-items:baseline; gap:10px; font-size:0.85rem; }
+.desc-ts-time { font-family:'Playfair Display',serif; font-weight:600; color:var(--gold); min-width:42px; flex-shrink:0; }
+.desc-ts-label { color:var(--brown); line-height:1.4; flex:1; }
+.desc-ts-link { font-size:0.74rem; color:var(--yt-red); text-decoration:none; flex-shrink:0; }
+.desc-people-section { border-top:1px solid var(--border); padding-top:1rem; margin-top:1rem; }
+.loading-wrap { text-align:center; padding:4rem 2rem; }
+.spinner { width:34px; height:34px; border:3px solid var(--border); border-top-color:var(--gold); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 1rem; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.loading-msg { font-size:0.9rem; color:var(--muted); margin-bottom:0.4rem; }
+.loading-sub { font-size:0.8rem; color:var(--muted); opacity:0.65; }
+.load-more-btn { display:block; width:100%; padding:12px; background:var(--warm-white); border:1px solid var(--border); border-radius:10px; font-family:'Source Sans 3',sans-serif; font-size:0.875rem; color:var(--brown); cursor:pointer; margin-top:0.5rem; transition:background 0.15s; }
+.load-more-btn:hover { background:#EDE8E0; }
+.empty { text-align:center; padding:3rem; color:var(--muted); font-size:0.95rem; }
+
+/* ── STICKY MERGE BAR ── */
+.merge-bar {
+  position:sticky; top:0; z-index:100;
+  background:var(--dark-brown); border-radius:10px;
+  padding:1rem 1.25rem; display:none;
+  margin-bottom:1rem;
+  box-shadow:0 4px 20px rgba(44,24,16,0.4);
+}
+.merge-bar.visible { display:block; }
+.merge-bar-top { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:0.75rem; }
+.merge-bar-label { font-size:0.75rem; color:rgba(255,255,255,0.5); white-space:nowrap; }
+.merge-bar-chips { display:flex; flex-wrap:wrap; gap:5px; flex:1; }
+.merge-bar-cancel { font-size:0.78rem; color:rgba(255,255,255,0.45); background:none; border:none; cursor:pointer; font-family:'Source Sans 3',sans-serif; flex-shrink:0; }
+.merge-bar-cancel:hover { color:rgba(255,255,255,0.9); }
+
+/* Individual chips in the merge bar */
+.mbar-chip {
+  font-size:0.8rem; padding:5px 11px; border-radius:20px;
+  border:1.5px solid rgba(255,255,255,0.2);
+  background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.75);
+  cursor:pointer; transition:all 0.12s; user-select:none;
+  display:inline-flex; align-items:center; gap:6px;
+}
+.mbar-chip:hover { border-color:var(--gold); }
+/* The canonical / "keep this one" chip */
+.mbar-chip.canonical {
+  background:var(--gold); color:var(--dark-brown);
+  border-color:var(--gold); font-weight:700;
+}
+.mbar-chip .chip-x { font-size:13px; opacity:0.55; line-height:1; }
+.mbar-chip:hover .chip-x { opacity:1; }
+.mbar-chip .chip-crown { font-size:11px; }
+
+.merge-bar-hint { font-size:0.78rem; color:rgba(255,255,255,0.45); margin-bottom:0.75rem; }
+.merge-bar-hint span { color:var(--gold-light); }
+
+.merge-bar-bottom { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.merge-bar-input { padding:7px 10px; border-radius:7px; border:1px solid rgba(255,255,255,0.2); background:rgba(255,255,255,0.08); color:white; font-family:'Source Sans 3',sans-serif; font-size:0.875rem; flex:1; min-width:160px; outline:none; }
+.merge-bar-input::placeholder { color:rgba(255,255,255,0.3); }
+.merge-bar-input:focus { border-color:var(--gold); }
+.merge-bar-btn { padding:7px 20px; background:var(--gold); color:var(--dark-brown); border:none; border-radius:7px; font-family:'Source Sans 3',sans-serif; font-size:0.875rem; font-weight:700; cursor:pointer; white-space:nowrap; transition:opacity 0.15s; flex-shrink:0; }
+.merge-bar-btn:hover { opacity:0.85; }
+.merge-bar-btn:disabled { opacity:0.35; cursor:default; }
+
+/* ── NAME MANAGER ── */
+.nm-intro { background:var(--warm-white); border:1px solid var(--border); border-radius:12px; padding:1.25rem; margin-bottom:1rem; }
+.nm-intro p { font-size:0.875rem; color:var(--muted); line-height:1.6; margin-bottom:0.75rem; }
+.nm-filter-row { display:flex; gap:8px; }
+.nm-filter-row input { flex:1; padding-left:12px; }
+.nm-section-head { font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--muted); font-weight:600; margin-bottom:0.75rem; }
+.nm-toast { display:none; background:#E8F5E9; border:1px solid #A5D6A7; color:#1B5E20; border-radius:8px; padding:10px 14px; font-size:0.85rem; margin-bottom:1rem; }
+.nm-toast.show { display:block; }
+
+.nm-all-names { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:1.5rem; }
+
+/* Name chips in the manager */
+.nm-chip {
+  font-size:0.8rem; padding:5px 11px; border-radius:20px;
+  border:1.5px solid var(--border); background:var(--card-bg);
+  color:var(--brown); cursor:pointer; transition:all 0.12s; user-select:none;
+  display:inline-flex; align-items:center; gap:4px;
+}
+.nm-chip:hover { border-color:var(--gold); background:var(--highlight); }
+.nm-chip.selected { border-color:rgba(44,24,16,0.5); background:rgba(44,24,16,0.07); color:var(--dark-brown); font-weight:600; }
+/* Chip that is currently designated as the canonical/keep name */
+.nm-chip.is-canonical-pick { border-color:var(--gold); background:var(--gold-light); color:var(--dark-brown); font-weight:700; }
+/* Chip that has already been merged away */
+.nm-chip.already-merged { border-color:var(--canonical-border); background:var(--canonical-bg); color:var(--canonical-text); }
+.nm-chip .nm-count { font-size:0.68rem; opacity:0.5; }
+.nm-chip .nm-crown { font-size:10px; }
+
+/* ── PASSWORD GATE ── */
+.pw-gate { background:var(--warm-white); border:1px solid var(--border); border-radius:12px; padding:2.5rem 2rem; text-align:center; }
+.pw-gate h3 { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:500; margin-bottom:0.5rem; }
+.pw-gate p { font-size:0.875rem; color:var(--muted); margin-bottom:1.5rem; }
+.pw-row { display:flex; gap:8px; max-width:320px; margin:0 auto 0.75rem; }
+.pw-row input { flex:1; padding-left:12px; letter-spacing:1px; }
+.pw-submit { padding:9px 20px; background:var(--dark-brown); color:var(--gold-light); border:none; border-radius:8px; font-family:'Source Sans 3',sans-serif; font-size:0.875rem; font-weight:600; cursor:pointer; white-space:nowrap; }
+.pw-submit:hover { opacity:0.85; }
+.pw-error { font-size:0.82rem; color:var(--yt-red); min-height:18px; margin-bottom:0.5rem; }
+.pw-hint-link { font-size:0.75rem; color:var(--border); background:none; border:none; cursor:pointer; font-family:'Source Sans 3',sans-serif; margin-top:0.25rem; display:inline-block; }
+.pw-hint-link:hover { color:var(--muted); }
+.pw-hint-text { font-size:0.82rem; color:var(--muted); margin-top:0.5rem; display:none; font-style:italic; }
+
+.nm-merges { background:var(--card-bg); border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+.nm-merge-row { display:flex; align-items:center; gap:10px; padding:8px 14px; border-bottom:0.5px solid var(--border); font-size:0.85rem; }
+.nm-merge-row:last-child { border-bottom:none; }
+.nm-merge-row:hover { background:var(--warm-white); }
+.nm-raw { color:var(--muted); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:0.82rem; }
+.nm-arrow { color:var(--gold); flex-shrink:0; }
+.nm-canonical-name { color:var(--canonical-text); font-weight:600; flex:1; font-size:0.85rem; }
+.nm-undo { font-size:0.75rem; color:var(--yt-red); background:none; border:none; cursor:pointer; font-family:'Source Sans 3',sans-serif; flex-shrink:0; }
+
+footer { text-align:center; padding:2rem; font-size:0.78rem; color:var(--muted); border-top:1px solid var(--border); margin-top:2rem; }
+@media(max-width:600px){
+  .stats-bar{grid-template-columns:repeat(2,1fr);}
+  .search-grid{grid-template-columns:1fr;}
+  .tabs{flex-wrap:wrap;}
+  .merge-bar-bottom{flex-direction:column;align-items:stretch;}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="ornament">✦ ✦ ✦</div>
+    <h1>The <em>Mendelson</em> Family Archive</h1>
+    <p>Home movies spanning generations &nbsp;·&nbsp; Searchable by person, place, year &amp; reel</p>
+  </div>
+</header>
+<div class="container">
+  <div id="loading-wrap" class="loading-wrap">
+    <div class="spinner"></div>
+    <div class="loading-msg" id="loading-msg">Connecting to YouTube…</div>
+    <div class="loading-sub" id="loading-sub"></div>
+  </div>
+  <div id="main-ui" style="display:none">
+    <div class="stats-bar" id="stats-bar"></div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('search')">🔍 Search</button>
+      <button class="tab" onclick="switchTab('year')">📅 Browse by Year</button>
+      <button class="tab" onclick="switchTab('names')">✏️ Name Manager</button>
+    </div>
+
+    <!-- SEARCH -->
+    <div id="panel-search">
+      <div class="search-section">
+        <div class="input-wrap search-full">
+          <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" id="q-keyword" placeholder="Search by name, place, or any keyword…" oninput="filter()" />
+        </div>
+        <div class="search-grid">
+          <div class="input-wrap">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <select id="q-year" onchange="filter()"><option value="">All years</option></select>
+          </div>
+          <div class="input-wrap">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <select id="q-person" onchange="filter()"><option value="">All people</option></select>
+          </div>
+          <div class="input-wrap">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+            <input type="text" id="q-reel" placeholder="Reel number (e.g. 39)" oninput="filter()" />
+          </div>
+          <div class="input-wrap">
+            <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            <input type="text" id="q-desc" placeholder="Search within descriptions…" oninput="filter()" />
+          </div>
+        </div>
+        <button class="clear-btn" onclick="clearSearch()">Clear all filters</button>
+      </div>
+      <div class="results-header">
+        <span class="results-count" id="results-count"></span>
+        <select class="sort-select" id="sort-sel" onchange="filter()">
+          <option value="date-desc">Newest first</option>
+          <option value="date-asc">Oldest first</option>
+          <option value="reel-asc">Reel # ascending</option>
+          <option value="alpha">A–Z by title</option>
+        </select>
+      </div>
+      <div id="video-list"></div>
+      <div id="load-more-area"></div>
+    </div>
+
+    <!-- YEAR -->
+    <div id="panel-year" style="display:none">
+      <div class="year-grid" id="year-grid"></div>
+      <div class="results-header"><span class="results-count" id="year-results-count">Select a year above to browse</span></div>
+      <div id="year-video-list"></div>
+      <div id="year-load-more"></div>
+    </div>
+
+    <!-- NAME MANAGER -->
+    <div id="panel-names" style="display:none">
+
+      <!-- Password gate -->
+      <div id="pw-gate" class="pw-gate">
+        <h3>🔒 Name Manager</h3>
+        <p>This area is restricted. Enter the password to continue.</p>
+        <div class="pw-row">
+          <input type="password" id="pw-input" placeholder="Password…" onkeydown="if(event.key==='Enter')checkPassword()" />
+          <button class="pw-submit" onclick="checkPassword()">Enter</button>
+        </div>
+        <div class="pw-error" id="pw-error"></div>
+        <button class="pw-hint-link" onclick="toggleHint()">Forgot your password?</button>
+        <div class="pw-hint-text" id="pw-hint">Hint: Who was your first pet?</div>
+      </div>
+
+      <!-- Name manager content (hidden until unlocked) -->
+      <div id="nm-content" style="display:none">
+
+      <!-- Sticky merge bar -->
+      <div class="merge-bar" id="merge-bar">
+        <div class="merge-bar-top">
+          <span class="merge-bar-label" id="merge-bar-label">0 selected</span>
+          <div class="merge-bar-chips" id="merge-bar-chips"></div>
+          <button class="merge-bar-cancel" onclick="clearSelection()">Cancel</button>
+        </div>
+        <div class="merge-bar-hint" id="merge-bar-hint">Click a chip to mark it as the <span>canonical name</span> (the one to keep)</div>
+        <div class="merge-bar-bottom">
+          <input class="merge-bar-input" id="merge-canonical" placeholder="Or type a custom canonical name…" />
+          <button class="merge-bar-btn" id="merge-bar-btn" onclick="doMerge()" disabled>Merge</button>
+        </div>
+      </div>
+
+      <div class="nm-intro">
+        <p>Click names to select them for merging. Once you have your variants selected, <strong>click the one you want to keep</strong> in the merge bar above — it turns gold. Then hit Merge.</p>
+        <div class="nm-filter-row">
+          <input type="text" id="nm-filter" placeholder="Filter names…" oninput="renderNameManager()" style="padding-left:12px" />
+        </div>
+      </div>
+
+      <div id="nm-toast" class="nm-toast"></div>
+
+
+
+      <div class="nm-section-head">All names (<span id="nm-name-count">0</span>)</div>
+      <div class="nm-all-names" id="nm-all-names"></div>
+
+      <div id="nm-merges-section" style="display:none">
+        <div class="nm-section-head" style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)">
+          Saved merges (<span id="nm-merge-count">0</span>)
+        </div>
+        <div class="nm-merges" id="nm-merges-list"></div>
+      </div>
+
+      </div> <!-- end nm-content -->
+    </div>
+  </div>
+</div>
+<footer>Mendelson Family Archive &nbsp;·&nbsp; Powered by YouTube Data API v3</footer>
+
+<script>
+const YT_KEY = 'AIzaSyATzmjmgnO21foglT6zcarVtQqnJFKnCBg';
+const CHANNEL_ID = 'UCVxnX3EUBgXjH92VwQz1a9w';
+const ALIASES_KEY = 'mendelson_aliases_v3';
+
+let allVideos = [], filtered = [];
+let shownSearch = 15, shownYear = 15, activeYear = null;
+
+// aliases: Map of raw lowercase -> canonical string
+let aliases = new Map();
+// Set of canonical names (the "keep" names) — used for green tag
+let canonicalNames = new Set();
+
+// Selection state
+let nmSelected = new Set();   // raw lowercase names selected for merge
+let nmCanonicalPick = null;   // which of the selected is the canonical pick
+
+// ── Persistence ──
+function loadAliases() {
+  try {
+    const r = localStorage.getItem(ALIASES_KEY);
+    if (r) {
+      const parsed = JSON.parse(r);
+      aliases = new Map(parsed);
+      rebuildCanonicalSet();
+    }
+  } catch(e) {}
+}
+function saveAliases() {
+  try { localStorage.setItem(ALIASES_KEY, JSON.stringify([...aliases])); } catch(e) {}
+}
+function rebuildCanonicalSet() {
+  canonicalNames = new Set([...aliases.values()].map(v => v.toLowerCase()));
+}
+
+// ── Resolution ──
+function resolveName(name) { return aliases.get(name.toLowerCase()) || name; }
+function resolveVideoPeople(v) {
+  const seen = new Set();
+  return (v._rawPeople||[]).map(p => resolveName(p)).filter(p => {
+    if (seen.has(p.toLowerCase())) return false;
+    seen.add(p.toLowerCase()); return true;
+  });
+}
+function applyAliasesToAll() {
+  for (const v of allVideos) v.people = resolveVideoPeople(v);
+}
+// Is this resolved name a canonical name that has things merged into it?
+function isCanonicalWithMerges(resolvedName) {
+  return canonicalNames.has(resolvedName.toLowerCase());
+}
+
+// ── Utilities ──
+function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function parseYear(t) { const m=t.match(/\b(19[4-9]\d|20[0-2]\d)\b/); return m?m[0]:null; }
+function parseReel(t) { const m=t.match(/reel\s*#?\s*(\d+)/i); return m?m[1]:null; }
+function tsToSecs(ts) { const p=ts.split(':').map(Number); return p.length===3?p[0]*3600+p[1]*60+p[2]:p[0]*60+p[1]; }
+function parseTimestamps(desc) {
+  return [...desc.matchAll(/^(\d+:\d+(?::\d+)?)\s+(.+)/gm)].map(m=>({ts:m[1],secs:tsToSecs(m[1]),label:m[2].trim()}));
+}
+
+// ── Name extraction ──
+const SEED_SURNAMES=['Mendelson','Acker','Margolis','Cooper','Schwartz','Frumin','Stein','Kowal','Goldbaum','Steinschnieder','Fealk','Heideman','Kirsch','Baxt','Sherbin'];
+const knownSurnames=new Set(SEED_SURNAMES);
+const knownFirstNames=new Set(['Herbert','Phyllis','David','Jeffrey','Diane','Randy','Fred','Cyril','Chaya','Sol','Carl','Lillian','Phil','Norman','Philip','Harvey','Sandy','Jerry','Larry','Leonard','Marilyn','Susie','Susan','Harold','Marvin','Shirley','Dorothy','Ruth','Ethel','Irving','Murray','Milton','Seymour','Stanley','Jerome','Gerald','Bernard','Morton','Howard','Ronald','Donald','Richard','Robert','William','James','John','Michael','Steven','Mark','Paul','Daniel','Joseph','George','Charles','Edward','Thomas','Arthur','Frank','Albert','Henry','Walter','Harry','Ann','Anna','Barbara','Betty','Carol','Catherine','Christine','Deborah','Diana','Donna','Eleanor','Elizabeth','Ellen','Emily','Frances','Gloria','Grace','Helen','Jane','Janet','Joan','Joyce','Judith','Karen','Katherine','Laura','Linda','Lisa','Louise','Margaret','Mary','Nancy','Patricia','Paula','Rebecca','Rita','Rose','Sandra','Sarah','Sharon','Virginia','Lois','Norma','Edith','Esther','Miriam','Sylvia','Rhoda','Elaine','Rochelle','Renee','Bonnie','Gail','Judy','Marcia','Myra','Adele','Reva','Zelda','Minnie','Ida','Fannie','Molly','Irwin','Ira','Saul','Sid','Sidney','Mel','Melvin','Abe','Max','Morris','Lou','Louis','Leo','Leon','Burt','Nat','Nathan','Al','Alfred','Alex','Allan','Allen','Aaron','Adam','Alan','Barry','Bob','Brad','Bruce','Bryan','Dale','Dean','Dennis','Doug','Drew','Eric','Gary','Gene','Glen','Greg','Jack','Jay','Jeff','Jim','Joe','Joel','Jon','Jonathan','Ken','Kevin','Lee','Marc','Matt','Mike','Neil','Nick','Pat','Pete','Ray','Rick','Rob','Rod','Roger','Ron','Ross','Roy','Ryan','Sam','Scott','Sean','Seth','Ted','Tim','Todd','Tom','Tony','Victor','Wayne','Wendy']);
+const STOPWORDS=new Set(['The','This','That','They','Their','There','Then','When','Where','Which','With','From','Into','Upon','After','Before','During','While','Between','Michigan','Detroit','Chicago','Ohio','Florida','New','Oak','Park','Lake','Street','Road','Avenue','Drive','Court','Place','Way','University','College','School','Church','Temple','Hospital','Center','Home','House','Yard','Backyard','Garden','Pool','Basement','Living','Dining','January','February','March','April','June','July','August','September','October','November','December','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday','Spring','Summer','Fall','Winter','Annual','First','Second','Third','Last','Next','Old','Young','Little','Big','Good','Great','Nice','Happy','Special','Family','Friend','Neighbor','North','South','East','West','Upper','Lower','Inner','Outer','Middle','Watch','Jump','Show','Visit','Film','Reel','Video','Photo','Movie','Scene','Stouffer','Interstate','Coolidge','Beverly','Stadium','Arena','Bowling']);
+
+function cleanWord(w){return w.replace(/[^A-Za-z]/g,'');}
+function isValidNamePart(w){return /^[A-Z][a-z]{1,20}$/.test(w)&&!STOPWORDS.has(w);}
+
+function parsePeopleFromHeader(desc){
+  const m=desc.match(/(?:Persons?|People)\s+(?:in|appearing)[^\n]*\n[-=\s]*\n?([\s\S]+?)(\n\n|$)/i);
+  if(!m) return null;
+  const names=m[1].split(/,|\n/).map(p=>p.replace(/[^A-Za-z\s]/g,'').trim()).filter(p=>p.length>3&&/^[A-Z]/.test(p)&&p.includes(' '));
+  return names.length>0?names:null;
+}
+function extractBySurname(text){
+  const found=new Map();
+  for(const line of text.split('\n')){
+    if(/^[A-Z][A-Z\s\-\/&,]{5,}$/.test(line.trim())||/^\d+:\d+/.test(line.trim())) continue;
+    const tokens=line.split(/\s+/);
+    for(let i=1;i<tokens.length;i++){
+      const last=cleanWord(tokens[i]),first=cleanWord(tokens[i-1]);
+      if(knownSurnames.has(last)&&isValidNamePart(first)&&!STOPWORDS.has(first))
+        found.set(`${first} ${last}`.toLowerCase(),`${first} ${last}`);
+    }
+  }
+  return found;
+}
+function extractByFirstName(text){
+  const found=new Map();
+  for(const line of text.split('\n')){
+    if(/^[A-Z][A-Z\s\-\/&,]{5,}$/.test(line.trim())||/^\d+:\d+/.test(line.trim())) continue;
+    const tokens=line.split(/\s+/);
+    for(let i=0;i<tokens.length-1;i++){
+      const w1=cleanWord(tokens[i]),w2=cleanWord(tokens[i+1]);
+      if(knownFirstNames.has(w1)&&isValidNamePart(w2)&&!STOPWORDS.has(w2))
+        found.set(`${w1} ${w2}`.toLowerCase(),`${w1} ${w2}`);
+    }
+  }
+  return found;
+}
+function extractCommaList(text){
+  const found=new Map();
+  const blocks=text.match(/[A-Z][a-z]+ [A-Z][a-z]+(?:,\s*[A-Z][a-z]+ [A-Z][a-z]+){2,}/g);
+  if(!blocks) return found;
+  for(const block of blocks)
+    for(const name of block.split(',').map(n=>n.trim())){
+      const p=name.split(' ');
+      if(p.length===2&&isValidNamePart(p[0])&&isValidNamePart(p[1])&&!STOPWORDS.has(p[0]))
+        found.set(name.toLowerCase(),name);
+    }
+  return found;
+}
+function extractNamesFromText(desc){
+  const c=new Map();
+  for(const [k,v] of extractBySurname(desc)) c.set(k,v);
+  for(const [k,v] of extractByFirstName(desc)) c.set(k,v);
+  for(const [k,v] of extractCommaList(desc)) c.set(k,v);
+  return [...c.values()].sort();
+}
+function buildGlobalNameIndex(videos){
+  for(const v of videos){
+    const h=parsePeopleFromHeader(v.description);
+    if(h) for(const name of h){
+      const parts=name.trim().split(/\s+/);
+      if(parts.length>=2){
+        const f=cleanWord(parts[0]),l=cleanWord(parts[parts.length-1]);
+        if(/^[A-Z][a-z]+$/.test(f)) knownFirstNames.add(f);
+        if(/^[A-Z][a-z]+$/.test(l)) knownSurnames.add(l);
+      }
+    }
+  }
+  for(const v of videos){
+    const h=parsePeopleFromHeader(v.description);
+    v._rawPeople=h&&h.length>0?h:extractNamesFromText(v.description);
+    v.people=resolveVideoPeople(v);
+  }
+}
+
+
+
+// ── Name Manager UI ──
+
+// Raw count: how many videos mention each raw name key
+function getCountMap(){
+  const m=new Map();
+  for(const v of allVideos)
+    for(const p of v._rawPeople||[]){ const k=p.toLowerCase(); m.set(k,(m.get(k)||0)+1); }
+  return m;
+}
+
+// Grouped view for the chip display
+// Merged names collapse into one canonical chip with total count + variant list
+// Unmerged names show individually
+function getGroupedNames(){
+  const rawCounts = getCountMap();
+  const canonicalGroups = new Map(); // canonical.toLowerCase() -> { canonical, variants[], totalCount }
+  const unmerged = [];
+
+  for(const [rawKey, count] of rawCounts){
+    const canonical = aliases.get(rawKey);
+    if(canonical){
+      const ck = canonical.toLowerCase();
+      if(!canonicalGroups.has(ck)) canonicalGroups.set(ck,{ canonical, variants:[], totalCount:0 });
+      const g = canonicalGroups.get(ck);
+      // Don't list the canonical's own lowercase key as a "variant" label
+      if(rawKey !== ck) g.variants.push(rawKey);
+      g.totalCount += count;
+    } else {
+      unmerged.push({ rawKey, count });
+    }
+  }
+
+  return { canonicalGroups, unmerged };
+}
+
+function toggleChip(selKey){
+  if(nmSelected.has(selKey)){
+    nmSelected.delete(selKey);
+    if(nmCanonicalPick===selKey) nmCanonicalPick=null;
+  } else {
+    nmSelected.add(selKey);
+  }
+  updateMergeBar();
+  renderChipsOnly();
+}
+
+// Called when user clicks a chip IN the merge bar to designate it canonical
+function setCanonicalPick(selKey){
+  nmCanonicalPick = nmCanonicalPick===selKey ? null : selKey;
+  if(nmCanonicalPick){
+    let display;
+    if(selKey.startsWith('canon:')){
+      display = toTitleCase(selKey.slice(6));
+    } else {
+      const rk = selKey.slice(4);
+      display = aliases.get(rk) || toTitleCase(rk);
+    }
+    document.getElementById('merge-canonical').value = display;
+  } else {
+    document.getElementById('merge-canonical').value = '';
+  }
+  updateMergeBar();
+}
+
+function toTitleCase(s){ return s.replace(/\b\w/g,c=>c.toUpperCase()); }
+
+function updateMergeBar(){
+  const bar=document.getElementById('merge-bar');
+  if(nmSelected.size===0){ bar.classList.remove('visible'); return; }
+  bar.classList.add('visible');
+
+  document.getElementById('merge-bar-label').textContent = `${nmSelected.size} name${nmSelected.size!==1?'s':''} selected`;
+
+  // Chips inside bar — decode prefix for display
+  document.getElementById('merge-bar-chips').innerHTML = [...nmSelected].map(selKey=>{
+    const isCanon = nmCanonicalPick===selKey;
+    let display;
+    if(selKey.startsWith('canon:')){
+      const ck = selKey.slice(6);
+      const variantCount = [...aliases.values()].filter(v=>v.toLowerCase()===ck).length;
+      display = `${toTitleCase(ck)} (${variantCount+1})`;
+    } else {
+      const rk = selKey.slice(4);
+      display = aliases.get(rk) || toTitleCase(rk);
+    }
+    return `<span class="mbar-chip ${isCanon?'canonical':''}" onclick="setCanonicalPick('${escHtml(selKey)}')" title="${isCanon?'This is the canonical name — click another to change':'Click to use as the canonical name'}">
+      ${isCanon?'<span class="chip-crown">★</span>':''}
+      ${escHtml(display)}
+      <span class="chip-x" onclick="event.stopPropagation();toggleChip('${escHtml(selKey)}')">×</span>
+    </span>`;
+  }).join('');
+
+  const hint = document.getElementById('merge-bar-hint');
+  if(nmCanonicalPick){
+    hint.innerHTML = `<span style="color:var(--gold-light)">★ ${escHtml(toTitleCase(nmCanonicalPick))}</span> will be kept as the canonical name`;
+  } else {
+    hint.innerHTML = `Click a chip above to mark it as the <span>canonical name</span> to keep, or type one below`;
+  }
+
+  const btn = document.getElementById('merge-bar-btn');
+  btn.disabled = nmSelected.size < 2 || (!nmCanonicalPick && !document.getElementById('merge-canonical').value.trim());
+}
+
+function clearSelection(){
+  nmSelected.clear(); nmCanonicalPick=null;
+  document.getElementById('merge-canonical').value='';
+  updateMergeBar();
+  renderNameManager();
+}
+
+function doMerge(){
+  // Work out the canonical display name
+  let canonical;
+  if(nmCanonicalPick){
+    canonical = nmCanonicalPick.startsWith('canon:')
+      ? toTitleCase(nmCanonicalPick.slice(6))
+      : (aliases.get(nmCanonicalPick.slice(4)) || toTitleCase(nmCanonicalPick.slice(4)));
+  } else {
+    canonical = document.getElementById('merge-canonical').value.trim();
+  }
+  if(!canonical || nmSelected.size < 2) return;
+
+  const canonLower = canonical.toLowerCase();
+
+  // Collect every raw alias key that needs to point to the new canonical.
+  // For a "raw:xxx" selection: add xxx directly.
+  // For a "canon:xxx" selection: add xxx itself PLUS every existing alias that points to xxx.
+  const toAlias = new Set();
+
+  for(const selKey of nmSelected){
+    if(selKey.startsWith('raw:')){
+      toAlias.add(selKey.slice(4));
+    } else if(selKey.startsWith('canon:')){
+      const ck = selKey.slice(6);
+      // Add the canonical key itself (unless it IS the new canonical)
+      if(ck !== canonLower) toAlias.add(ck);
+      // Add all raw names that were already pointing to this canonical
+      for(const [raw, canon] of aliases){
+        if(canon.toLowerCase() === ck) toAlias.add(raw);
+      }
+    }
+  }
+
+  // Write aliases for everything in toAlias
+  // Also alias the canonical's own lowercase key if it differs from canonical display
+  // e.g. "carl frumin" -> "Carl Frumin" must be stored so the chip collapses correctly
+  for(const k of toAlias){
+    aliases.set(k, canonical);
+  }
+
+  // Also ensure the canonical lowercase key itself points to the canonical
+  // (handles case where canonical group head is also a raw name)
+  aliases.set(canonLower, canonical);
+
+  // But if canonical IS already perfectly matching (same case), remove the self-alias
+  // to keep aliases clean — only keep it if casing differs
+  if(canonLower === canonical.toLowerCase() && canonical === toTitleCase(canonLower)){
+    // Only remove self-alias if nothing else needs it to find the group
+    // Keep it — it's harmless and required for getGroupedNames to work
+  }
+
+  saveAliases();
+  rebuildCanonicalSet();
+  applyAliasesToAll();
+  rebuildSelects();
+  buildStats();
+  showToast(`✓ Merged into "${canonical}"`);
+  nmSelected.clear(); nmCanonicalPick=null;
+  document.getElementById('merge-canonical').value='';
+  updateMergeBar();
+  renderNameManager();
+  if(document.getElementById('panel-search').style.display!=='none') filter();
+}
+
+// Re-enable merge btn when user types a custom canonical
+document.addEventListener('input', e=>{
+  if(e.target.id==='merge-canonical'){
+    const btn=document.getElementById('merge-bar-btn');
+    if(btn) btn.disabled = nmSelected.size<2 || !e.target.value.trim();
+  }
+});
+
+function showToast(msg){
+  const t=document.getElementById('nm-toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+
+function undoMerge(rawKey){
+  aliases.delete(rawKey);
+  saveAliases(); rebuildCanonicalSet();
+  applyAliasesToAll(); rebuildSelects(); buildStats();
+  renderNameManager();
+  if(document.getElementById('panel-search').style.display!=='none') filter();
+}
+
+// Chip for a single unmerged raw name
+function rawChipHTML(rawKey, count, small){
+  const selKey = 'raw:' + rawKey;
+  const isSelected=nmSelected.has(selKey);
+  const isCanonPick=nmCanonicalPick===selKey;
+  const sz=small?'font-size:0.78rem;':'';
+  let cls='nm-chip';
+  if(isSelected&&isCanonPick) cls+=' is-canonical-pick';
+  else if(isSelected) cls+=' selected';
+  const crown=isCanonPick?'<span class="nm-crown">★</span>':'';
+  const cntStr=count!=null?`<span class="nm-count">${count}</span>`:'';
+  return `<span class="${cls}" style="${sz}" onclick="toggleChip('${escHtml(selKey)}')" title="${count!=null?count+' video'+(count!==1?'s':''):''}">${crown}${escHtml(rawKey)}${cntStr}</span>`;
+}
+
+// Chip for a canonical name that has variants merged into it
+// Shows canonical name + merged count badge
+function canonicalChipHTML(canonical, variants, totalCount){
+  const ck = canonical.toLowerCase();
+  const selKey = 'canon:' + ck;
+  const isSelected = nmSelected.has(selKey);
+  let cls='nm-chip already-merged';
+  if(isSelected) cls='nm-chip selected';
+  const variantStr = variants.map(v=>escHtml(v)).join(', ');
+  const mergedCount = variants.length + 1;
+  return `<span class="${cls}" onclick="toggleChip('${escHtml(selKey)}')" title="Merged from: ${variantStr}&#10;${totalCount} video${totalCount!==1?'s':''}">${escHtml(canonical)}<span class="nm-count" style="background:var(--canonical-border);color:var(--canonical-text);padding:1px 5px;border-radius:10px;font-size:0.68rem;margin-left:3px">${mergedCount}</span></span>`;
+}
+
+function renderChipsOnly(){
+  const filterVal=document.getElementById('nm-filter').value.toLowerCase().trim();
+  const { canonicalGroups, unmerged } = getGroupedNames();
+  renderChipLists(filterVal, canonicalGroups, unmerged);
+}
+
+function renderChipLists(filterVal, canonicalGroups, unmerged){
+  // Canonical merged chips
+  const mergedChips = [...canonicalGroups.entries()]
+    .filter(([ck,g])=>!filterVal||ck.includes(filterVal)||g.variants.some(v=>v.includes(filterVal)))
+    .sort((a,b)=>a[0].localeCompare(b[0]))
+    .map(([ck,g])=>canonicalChipHTML(g.canonical, g.variants, g.totalCount));
+
+  // Unmerged individual chips
+  const unmergedChips = unmerged
+    .filter(({rawKey})=>!filterVal||rawKey.includes(filterVal))
+    .sort((a,b)=>a.rawKey.localeCompare(b.rawKey))
+    .map(({rawKey,count})=>rawChipHTML(rawKey,count,false));
+
+  // Total unique display names = canonical groups + unmerged individuals
+  const totalDisplay = canonicalGroups.size + unmerged.length;
+  document.getElementById('nm-name-count').textContent=totalDisplay;
+  document.getElementById('nm-all-names').innerHTML=[...mergedChips,...unmergedChips].join('');
+}
+
+function renderNameManager(){
+  const filterVal=document.getElementById('nm-filter').value.toLowerCase().trim();
+  const { canonicalGroups, unmerged } = getGroupedNames();
+  renderChipLists(filterVal, canonicalGroups, unmerged);
+
+  // Saved merges table
+  const msec=document.getElementById('nm-merges-section');
+  if(aliases.size>0){
+    msec.style.display='block';
+    document.getElementById('nm-merge-count').textContent=aliases.size;
+    document.getElementById('nm-merges-list').innerHTML=[...aliases.entries()].sort((a,b)=>a[0].localeCompare(b[0])).map(([raw,canonical])=>
+      `<div class="nm-merge-row">
+        <span class="nm-raw">${escHtml(raw)}</span>
+        <span class="nm-arrow">→</span>
+        <span class="nm-canonical-name">${escHtml(canonical)}</span>
+        <button class="nm-undo" onclick="undoMerge('${escHtml(raw)}')">Undo</button>
+      </div>`
+    ).join('');
+  } else { msec.style.display='none'; }
+
+  updateMergeBar();
+}
+
+// ── YouTube API ──
+async function ytFetch(ep){
+  const r=await fetch(`https://www.googleapis.com/youtube/v3/${ep}&key=${YT_KEY}`);
+  if(!r.ok) throw new Error(`YouTube API error ${r.status}`);
+  return r.json();
+}
+async function fetchAllVideos(){
+  let videos=[],token='',page=0;
+  do {
+    const data=await ytFetch(`search?channelId=${CHANNEL_ID}&part=id&type=video&maxResults=50&order=date${token?'&pageToken='+token:''}`);
+    token=data.nextPageToken||'';
+    const ids=data.items.map(i=>i.id.videoId).join(',');
+    if(!ids) break;
+    const detail=await ytFetch(`videos?id=${ids}&part=snippet`);
+    for(const item of detail.items){
+      const s=item.snippet,desc=s.description||'',title=s.title||'';
+      videos.push({id:item.id,title,description:desc,publishedAt:s.publishedAt,
+        year:parseYear(title)||parseYear(desc),reel:parseReel(title)||parseReel(desc),
+        timestamps:parseTimestamps(desc),_rawPeople:[],people:[]});
+    }
+    page++; document.getElementById('loading-msg').textContent=`Loading videos… (${videos.length} loaded)`;
+  } while(token&&page<30);
+  return videos;
+}
+
+function buildSelects(){
+  const years=[...new Set(allVideos.map(v=>v.year).filter(Boolean))].sort((a,b)=>a-b);
+  const people=[...new Set(allVideos.flatMap(v=>v.people))].sort();
+  const ySel=document.getElementById('q-year'),pSel=document.getElementById('q-person');
+  years.forEach(y=>{const o=document.createElement('option');o.value=o.textContent=y;ySel.appendChild(o);});
+  people.forEach(p=>{const o=document.createElement('option');o.value=o.textContent=p;pSel.appendChild(o);});
+}
+function rebuildSelects(){
+  const ySel=document.getElementById('q-year'),pSel=document.getElementById('q-person');
+  const cy=ySel.value,cp=pSel.value;
+  while(ySel.options.length>1) ySel.remove(1);
+  while(pSel.options.length>1) pSel.remove(1);
+  buildSelects();
+  ySel.value=cy; pSel.value=cp;
+}
+function buildStats(){
+  const years=new Set(allVideos.map(v=>v.year).filter(Boolean));
+  const people=new Set(allVideos.flatMap(v=>v.people));
+  const scenes=allVideos.reduce((a,v)=>a+v.timestamps.length,0);
+  document.getElementById('stats-bar').innerHTML=[
+    [allVideos.length,'Videos'],[people.size,'People'],[years.size,'Years'],[scenes,'Scenes']
+  ].map(([n,l])=>`<div class="stat-item"><div class="stat-num">${n.toLocaleString()}</div><div class="stat-label">${l}</div></div>`).join('');
+}
+function buildYearGrid(){
+  const counts={};
+  allVideos.forEach(v=>{if(v.year) counts[v.year]=(counts[v.year]||0)+1;});
+  document.getElementById('year-grid').innerHTML=Object.keys(counts).sort((a,b)=>a-b).map(y=>
+    `<button class="year-chip" onclick="selectYear('${y}')">${y} <span style="opacity:.6;font-size:.72rem">(${counts[y]})</span></button>`
+  ).join('');
+}
+function selectYear(y){
+  activeYear=activeYear===y?null:y; shownYear=15;
+  document.querySelectorAll('.year-chip').forEach(c=>c.classList.toggle('active',c.textContent.trim().startsWith(y)&&activeYear===y));
+  renderYearList();
+}
+function renderYearList(){
+  const vids=activeYear?allVideos.filter(v=>v.year===activeYear):[];
+  const sorted=[...vids].sort((a,b)=>(a.reel||999)*1-(b.reel||999)*1);
+  document.getElementById('year-results-count').textContent=activeYear?`${vids.length} video${vids.length!==1?'s':''} from ${activeYear}`:'Select a year above to browse';
+  document.getElementById('year-video-list').innerHTML=activeYear?sorted.slice(0,shownYear).map(v=>cardHTML(v,'')).join(''):'';
+  const lma=document.getElementById('year-load-more');
+  lma.innerHTML=activeYear&&sorted.length>shownYear?`<button class="load-more-btn" onclick="shownYear+=15;renderYearList()">Show more (${sorted.length-shownYear} remaining)</button>`:'';
+}
+function sortVids(vids,s){
+  const arr=[...vids];
+  if(s==='date-asc') arr.sort((a,b)=>(a.year||'9999').localeCompare(b.year||'9999')||(a.reel||999)*1-(b.reel||999)*1);
+  else if(s==='date-desc') arr.sort((a,b)=>(b.year||'0000').localeCompare(a.year||'0000')||(a.reel||999)*1-(b.reel||999)*1);
+  else if(s==='reel-asc') arr.sort((a,b)=>(a.reel||999)*1-(b.reel||999)*1);
+  else if(s==='alpha') arr.sort((a,b)=>a.title.localeCompare(b.title));
+  return arr;
+}
+function filter(){
+  const q=document.getElementById('q-keyword').value.toLowerCase().trim();
+  const yr=document.getElementById('q-year').value;
+  const pr=document.getElementById('q-person').value;
+  const reel=document.getElementById('q-reel').value.trim();
+  const desc=document.getElementById('q-desc').value.toLowerCase().trim();
+  const sort=document.getElementById('sort-sel').value;
+  filtered=allVideos.filter(v=>{
+    if(yr&&v.year!==yr) return false;
+    if(pr&&!v.people.includes(pr)) return false;
+    if(reel&&v.reel!==reel) return false;
+    if(desc&&!v.description.toLowerCase().includes(desc)) return false;
+    if(q) return v.title.toLowerCase().includes(q)||v.description.toLowerCase().includes(q)||v.people.some(p=>p.toLowerCase().includes(q));
+    return true;
+  });
+  filtered=sortVids(filtered,sort); shownSearch=15; render();
+}
+function render(){
+  const q=document.getElementById('q-keyword').value.toLowerCase().trim();
+  const pr=document.getElementById('q-person').value;
+  document.getElementById('results-count').textContent=`${filtered.length.toLocaleString()} video${filtered.length!==1?'s':''} found`;
+  if(!filtered.length){
+    document.getElementById('video-list').innerHTML='<div class="empty">No videos match your search.</div>';
+    document.getElementById('load-more-area').innerHTML=''; return;
+  }
+  document.getElementById('video-list').innerHTML=filtered.slice(0,shownSearch).map(v=>cardHTML(v,q,pr)).join('');
+  const lma=document.getElementById('load-more-area');
+  lma.innerHTML=filtered.length>shownSearch?`<button class="load-more-btn" onclick="shownSearch+=15;render()">Show more (${filtered.length-shownSearch} remaining)</button>`:'';
+}
+function personTagHTML(p, q, pr){
+  const hl=(q&&p.toLowerCase().includes(q))||(pr&&p===pr);
+  const isCanon=isCanonicalWithMerges(p);
+  return `<span class="person-tag ${hl?'hl':isCanon?'canonical':''}">${escHtml(p)}</span>`;
+}
+function cardHTML(v,q,pr){
+  pr=pr||'';
+  const peopleTags=v.people.slice(0,20).map(p=>personTagHTML(p,q,pr)).join('')+(v.people.length>20?`<span class="person-tag">+${v.people.length-20}</span>`:'');
+  const matchTs=q?v.timestamps.filter(t=>t.label.toLowerCase().includes(q)):[];
+  const tsShow=(matchTs.length?matchTs:v.timestamps).slice(0,4);
+  const preview=v.timestamps.length?v.timestamps.slice(0,2).map(t=>t.label).join(' · '):v.description.replace(/\n+/g,' ').slice(0,160);
+  const tsHtml=tsShow.map(t=>`<a class="ts-btn" href="https://www.youtube.com/watch?v=${v.id}&t=${t.secs}s" target="_blank" onclick="event.stopPropagation()"><span class="ts-time">${t.ts}</span><span>${escHtml(t.label.slice(0,50))}${t.label.length>50?'…':''}</span></a>`).join('');
+  return `<div class="video-card" id="card-${v.id}">
+    <div class="card-top" onclick="toggleDesc('${v.id}')">
+      <div class="card-header">
+        <div class="card-title">${escHtml(v.title)}</div>
+        <div class="card-meta">
+          ${v.year?`<span class="year-badge">${v.year}</span>`:''}
+          ${v.reel?`<span class="reel-badge">Reel ${v.reel}</span>`:''}
+        </div>
+      </div>
+      ${v.people.length?`<div class="people-list">${peopleTags}</div>`:''}
+      <div class="card-preview">${escHtml(preview)}${preview.length>=160?'…':''}</div>
+      <div class="card-actions">
+        <a class="watch-btn" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" onclick="event.stopPropagation()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Watch on YouTube
+        </a>
+        ${tsHtml}
+        <button class="expand-toggle" id="toggle-${v.id}" onclick="event.stopPropagation();toggleDesc('${v.id}')">▼ Full description</button>
+      </div>
+    </div>
+    <div class="card-desc" id="desc-${v.id}">${buildDescHTML(v)}</div>
+  </div>`;
+}
+function buildDescHTML(v){
+  if(!v.description) return '<p class="desc-text">No description available.</p>';
+  const lines=v.description.split('\n');
+  let html='',currentHead=null,tsBuffer=[],textBuffer=[];
+  function flushSection(){
+    let s='<div style="margin-bottom:1.25rem">';
+    if(currentHead) s+=`<div class="desc-section-head">${escHtml(currentHead)}</div>`;
+    if(textBuffer.length) s+=`<div class="desc-text">${textBuffer.map(escHtml).join('<br>')}</div>`;
+    if(tsBuffer.length){
+      s+='<div class="desc-timestamps">';
+      for(const t of tsBuffer) s+=`<div class="desc-ts-row"><span class="desc-ts-time">${t.ts}</span><span class="desc-ts-label">${escHtml(t.label)}</span><a class="desc-ts-link" href="https://www.youtube.com/watch?v=${v.id}&t=${t.secs}s" target="_blank">▶ Jump</a></div>`;
+      s+='</div>';
+    }
+    s+='</div>'; html+=s; tsBuffer=[]; textBuffer=[];
+  }
+  for(const line of lines){
+    const tsMatch=line.match(/^(\d+:\d+(?::\d+)?)\s+(.+)/);
+    if(/(?:Persons?|People)\s+(?:in|appearing)/i.test(line)) break;
+    const isSH=!tsMatch&&/^[A-Z][A-Z\s\/\-&,]{4,}$/.test(line.trim())&&line.trim().length>0;
+    if(isSH){ if(currentHead!==null||tsBuffer.length||textBuffer.length) flushSection(); currentHead=line.trim(); }
+    else if(tsMatch) tsBuffer.push({ts:tsMatch[1],secs:tsToSecs(tsMatch[1]),label:tsMatch[2].trim()});
+    else if(line.trim()) textBuffer.push(line.trim());
+  }
+  if(currentHead!==null||tsBuffer.length||textBuffer.length) flushSection();
+  if(v.people.length){
+    const tags=v.people.map(p=>`<span class="person-tag ${isCanonicalWithMerges(p)?'canonical':''}">${escHtml(p)}</span>`).join('');
+    html+=`<div class="desc-people-section"><div class="desc-section-head">People in this video</div><div class="people-list">${tags}</div></div>`;
+  }
+  return html||`<div class="desc-text">${escHtml(v.description)}</div>`;
+}
+function toggleDesc(id){
+  const panel=document.getElementById('desc-'+id);
+  const toggle=document.getElementById('toggle-'+id);
+  const isOpen=panel.classList.toggle('open');
+  toggle.textContent=isOpen?'▲ Hide description':'▼ Full description';
+}
+function clearSearch(){
+  ['q-keyword','q-reel','q-desc'].forEach(id=>document.getElementById(id).value='');
+  ['q-year','q-person'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('sort-sel').value='date-desc'; filter();
+}
+// ── Password gate ──
+// Accepts "daphne" or "Daphne" (case-insensitive on first letter)
+const PW_SESSION_KEY = 'mendelson_nm_unlocked';
+
+function checkPassword() {
+  const val = document.getElementById('pw-input').value.trim();
+  if (val.toLowerCase() === 'daphne') {
+    sessionStorage.setItem(PW_SESSION_KEY, '1');
+    document.getElementById('pw-gate').style.display = 'none';
+    document.getElementById('nm-content').style.display = 'block';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-error').textContent = '';
+    renderNameManager();
+  } else {
+    document.getElementById('pw-error').textContent = 'Incorrect password. Try again.';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+  }
+}
+
+function toggleHint() {
+  const h = document.getElementById('pw-hint');
+  h.style.display = h.style.display === 'block' ? 'none' : 'block';
+}
+
+function isUnlocked() {
+  return sessionStorage.getItem(PW_SESSION_KEY) === '1';
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',
+    (i===0&&tab==='search')||(i===1&&tab==='year')||(i===2&&tab==='names')));
+  document.getElementById('panel-search').style.display=tab==='search'?'block':'none';
+  document.getElementById('panel-year').style.display=tab==='year'?'block':'none';
+  document.getElementById('panel-names').style.display=tab==='names'?'block':'none';
+  if(tab==='names'){
+    if(isUnlocked()){
+      document.getElementById('pw-gate').style.display='none';
+      document.getElementById('nm-content').style.display='block';
+      renderNameManager();
+    } else {
+      document.getElementById('pw-gate').style.display='block';
+      document.getElementById('nm-content').style.display='none';
+      setTimeout(()=>document.getElementById('pw-input').focus(), 50);
+    }
+  }
+}
+async function init(){
+  try {
+    loadAliases();
+    allVideos=await fetchAllVideos();
+    document.getElementById('loading-msg').textContent='Extracting names…';
+    buildGlobalNameIndex(allVideos);
+    applyAliasesToAll();
+    buildSelects(); buildStats(); buildYearGrid();
+    filtered=sortVids([...allVideos],'date-desc'); render();
+    document.getElementById('loading-wrap').style.display='none';
+    document.getElementById('main-ui').style.display='block';
+  } catch(e){
+    document.getElementById('loading-msg').textContent='Error: '+e.message;
+    document.getElementById('loading-sub').textContent='Check your API key and try refreshing.';
+    document.querySelector('.spinner').style.display='none';
+  }
+}
+init();
+</script>
+</body>
+</html>

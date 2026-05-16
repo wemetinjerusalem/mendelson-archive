@@ -457,7 +457,7 @@ footer { text-align:center; padding:2rem; font-size:0.78rem; color:var(--muted);
 </div>
 
 <!-- Save clip modal -->
-<div class="modal-overlay" id="save-modal">
+<div class="modal-overlay" id="save-modal" onclick="if(event.target===this)closeSaveModal()">
   <div class="modal">
     <h3>📌 Save Clip to Collection</h3>
     <div class="modal-clip-preview" id="modal-clip-preview"></div>
@@ -1060,8 +1060,11 @@ function buildDescHTML(v){
     if(tsBuffer.length){
       s+='<div class="desc-timestamps">';
       for(const t of tsBuffer){
-        const bookmarkBtn = isColUnlocked()
-          ? `<button class="ts-save-btn" onclick="event.stopPropagation();event.preventDefault();openSaveModal('${escHtml(v.id)}','${escHtml(v.title.replace(/'/g,"\\'"))}',${t.secs},'${escHtml(t.ts)}','${escHtml(t.label.replace(/'/g,"\\'"))}',${JSON.stringify(v.people)})" title="Save to collection">🔖</button>`
+        // Store clip data safely as JSON in a data attribute to avoid quote escaping issues
+        const clipData = JSON.stringify({videoId:v.id, videoTitle:v.title, secs:t.secs, ts:t.ts, label:t.label, people:v.people});
+        const safeData = escHtml(clipData);
+        const bookmarkBtn = (isColUnlocked() || isUnlocked())
+          ? `<button class="ts-save-btn" data-clip='${safeData}' onclick="event.stopPropagation();event.preventDefault();openSaveModalFromBtn(this)" title="Save to collection">🔖</button>`
           : '';
         s+=`<div class="desc-ts-row"><span class="desc-ts-time">${t.ts}</span><span class="desc-ts-label">${escHtml(t.label)}</span><a class="desc-ts-link" href="https://www.youtube.com/watch?v=${v.id}&t=${t.secs}s" target="_blank">▶ Jump</a>${bookmarkBtn}</div>`;
       }
@@ -1402,6 +1405,13 @@ function promptColUnlock(){
 }
 
 // ── Save clip modal ──
+function openSaveModalFromBtn(btn){
+  try {
+    const clip = JSON.parse(btn.getAttribute('data-clip'));
+    openSaveModal(clip.videoId, clip.videoTitle, clip.secs, clip.ts, clip.label, clip.people);
+  } catch(e){ console.error('Failed to parse clip data:', e); }
+}
+
 function openSaveModal(videoId, videoTitle, secs, ts, label, people){
   pendingClip = { videoId, videoTitle, secs, ts, label, people, isCover:false };
   selectedColId = null;

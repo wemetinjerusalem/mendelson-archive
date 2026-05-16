@@ -343,7 +343,14 @@ footer { text-align:center; padding:2rem; font-size:0.78rem; color:var(--muted);
       <div id="col-public">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
           <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600" id="col-count">Loading collections…</div>
-          <button class="col-create-btn" id="col-create-btn" onclick="showCreateCollection()">+ New Collection</button>
+          <button class="col-create-btn" id="col-create-btn" onclick="showCreateCollection()" style="display:none">+ New Collection</button>
+        </div>
+        <div id="col-how-to" style="display:none;background:var(--highlight);border:1px solid var(--highlight-border);border-radius:10px;padding:0.875rem 1rem;margin-bottom:1rem;font-size:0.85rem;color:var(--brown);line-height:1.6">
+          <strong>How to build a collection:</strong><br>
+          1. Go to <strong>Search</strong> and find videos<br>
+          2. Open a video's full description — each timestamp has a 🔖 bookmark icon<br>
+          3. Click 🔖 to save that clip to a collection<br>
+          4. Come back here to view, name, and edit your collections
         </div>
         <div id="col-list"></div>
       </div>
@@ -1019,10 +1026,7 @@ function personTagHTML(p, q, pr){
 function cardHTML(v,q,pr){
   pr=pr||'';
   const peopleTags=v.people.slice(0,20).map(p=>personTagHTML(p,q,pr)).join('')+(v.people.length>20?`<span class="person-tag">+${v.people.length-20}</span>`:'');
-  const matchTs=q?v.timestamps.filter(t=>t.label.toLowerCase().includes(q)):[];
-  const tsShow=(matchTs.length?matchTs:v.timestamps).slice(0,4);
   const preview=v.timestamps.length?v.timestamps.slice(0,2).map(t=>t.label).join(' · '):v.description.replace(/\n+/g,' ').slice(0,160);
-  const tsHtml=tsShow.map(t=>`<a class="ts-btn" href="https://www.youtube.com/watch?v=${v.id}&t=${t.secs}s" target="_blank" onclick="event.stopPropagation()"><span class="ts-time">${t.ts}</span><span>${escHtml(t.label.slice(0,50))}${t.label.length>50?'…':''}</span></a><button class="ts-save-btn" onclick="event.stopPropagation();openSaveModal('${escHtml(v.id)}','${escHtml(v.title.replace(/'/g,"\'"))}',${t.secs},'${escHtml(t.ts)}','${escHtml(t.label.replace(/'/g,"\'"))}',${JSON.stringify(v.people)})" title="Save to collection">🔖</button>`).join('');
   return `<div class="video-card" id="card-${v.id}">
     <div class="card-top" onclick="toggleDesc('${v.id}')">
       <div class="card-header">
@@ -1030,21 +1034,21 @@ function cardHTML(v,q,pr){
         <div class="card-meta">
           ${v.year?`<span class="year-badge">${v.year}</span>`:''}
           ${v.reel?`<span class="reel-badge">Reel ${v.reel}</span>`:''}
+          <a class="watch-btn" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" onclick="event.stopPropagation()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Watch
+          </a>
         </div>
       </div>
       ${v.people.length?`<div class="people-list">${peopleTags}</div>`:''}
       <div class="card-preview">${escHtml(preview)}${preview.length>=160?'…':''}</div>
       <div class="card-actions">
-        <a class="watch-btn" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" onclick="event.stopPropagation()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Watch on YouTube
-        </a>
-        ${tsHtml}
         <button class="expand-toggle" id="toggle-${v.id}" onclick="event.stopPropagation();toggleDesc('${v.id}')">▼ Full description</button>
       </div>
     </div>
     <div class="card-desc" id="desc-${v.id}">${buildDescHTML(v)}</div>
   </div>`;
 }
+
 function buildDescHTML(v){
   if(!v.description) return '<p class="desc-text">No description available.</p>';
   const lines=v.description.split('\n');
@@ -1055,7 +1059,12 @@ function buildDescHTML(v){
     if(textBuffer.length) s+=`<div class="desc-text">${textBuffer.map(escHtml).join('<br>')}</div>`;
     if(tsBuffer.length){
       s+='<div class="desc-timestamps">';
-      for(const t of tsBuffer) s+=`<div class="desc-ts-row"><span class="desc-ts-time">${t.ts}</span><span class="desc-ts-label">${escHtml(t.label)}</span><a class="desc-ts-link" href="https://www.youtube.com/watch?v=${v.id}&t=${t.secs}s" target="_blank">▶ Jump</a></div>`;
+      for(const t of tsBuffer){
+        const bookmarkBtn = isColUnlocked()
+          ? `<button class="ts-save-btn" onclick="event.stopPropagation();event.preventDefault();openSaveModal('${escHtml(v.id)}','${escHtml(v.title.replace(/'/g,"\\'"))}',${t.secs},'${escHtml(t.ts)}','${escHtml(t.label.replace(/'/g,"\\'"))}',${JSON.stringify(v.people)})" title="Save to collection">🔖</button>`
+          : '';
+        s+=`<div class="desc-ts-row"><span class="desc-ts-time">${t.ts}</span><span class="desc-ts-label">${escHtml(t.label)}</span><a class="desc-ts-link" href="https://www.youtube.com/watch?v=${v.id}&t=${t.secs}s" target="_blank">▶ Jump</a>${bookmarkBtn}</div>`;
+      }
       s+='</div>';
     }
     s+='</div>'; html+=s; tsBuffer=[]; textBuffer=[];
@@ -1331,8 +1340,14 @@ function renderCollections(){
     countEl.textContent = `${cols.length} collection${cols.length!==1?'s':''}`;
   }
 
+  // Show how-to tip when logged in
+  const howTo = document.getElementById('col-how-to');
+  if(howTo) howTo.style.display = isColUnlocked() ? 'block' : 'none';
+
   if(!cols.length){
-    listEl.innerHTML='<div class="empty">No collections yet. Create one to get started!</div>';
+    listEl.innerHTML = isColUnlocked()
+      ? '<div class="empty">No collections yet — search for videos, open a description, and click 🔖 on any timestamp to start building one.</div>'
+      : '<div class="empty">No collections yet.</div>';
     return;
   }
 

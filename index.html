@@ -287,6 +287,10 @@ footer { text-align:center; padding:2rem; font-size:0.78rem; color:var(--muted);
   </div>
   <div id="main-ui" style="display:none">
     <div class="stats-bar" id="stats-bar"></div>
+    <div id="cache-banner" style="display:none;background:var(--warm-white);border:1px solid var(--border);border-radius:8px;padding:8px 14px;margin-bottom:1rem;font-size:0.8rem;color:var(--muted);display:flex;align-items:center;justify-content:space-between;gap:10px">
+      <span>📦 Showing cached data from <strong id="cache-date"></strong></span>
+      <button onclick="forceRefresh()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:0.78rem;cursor:pointer;font-family:'Source Sans 3',sans-serif;color:var(--brown)">🔄 Refresh now</button>
+    </div>
     <div class="tabs">
       <button class="tab active" onclick="switchTab('search')">🔍 Search</button>
       <button class="tab" onclick="switchTab('year')">📅 Browse by Year</button>
@@ -1383,23 +1387,36 @@ function renderCollections(){
       </a>`).join('');
     const favCount = col.favorites||0;
     const editBtn = isColUnlocked() ? `<button class="col-edit-btn" onclick="editCollection('${escHtml(id)}')">✏️ Edit Collection</button>` : '';
-    return `<div class="col-card">
-      <div class="col-card-header">
-        <div class="col-card-title">${escHtml(col.title)}</div>
+    return `<div class="col-card" id="colcard-${escHtml(id)}">
+      <div class="col-card-header" onclick="toggleCollection('${escHtml(id)}')" style="cursor:pointer">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <div class="col-card-title">${escHtml(col.title)}</div>
+          <span class="col-toggle-icon" id="coltoggle-${escHtml(id)}" style="color:var(--gold);font-size:1.1rem;flex-shrink:0">▼</span>
+        </div>
         ${col.description?`<div class="col-card-desc">${escHtml(col.description)}</div>`:''}
-        ${peopleTags?`<div class="col-card-people">${peopleTags}</div>`:''}
         <div class="col-card-meta">
           <span>${(col.clips||[]).length} clip${(col.clips||[]).length!==1?'s':''}</span>
-          <button class="col-fav-btn" onclick="toggleFavorite('${escHtml(id)}')" id="fav-${escHtml(id)}">
+          <button class="col-fav-btn" onclick="event.stopPropagation();toggleFavorite('${escHtml(id)}')" id="fav-${escHtml(id)}">
             ❤️ ${favCount}
           </button>
-          ${editBtn}
+          ${editBtn.replace('onclick="', 'onclick="event.stopPropagation();')}
         </div>
       </div>
-      ${coverHtml}
-      <div class="col-clips">${clipsHtml}</div>
+      <div class="col-clips-body" id="colbody-${escHtml(id)}">
+        ${coverHtml}
+        <div class="col-clips">${clipsHtml}</div>
+      </div>
     </div>`;
   }).join('');
+}
+
+function toggleCollection(id){
+  const body = document.getElementById('colbody-'+id);
+  const icon = document.getElementById('coltoggle-'+id);
+  if(!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if(icon) icon.textContent = isOpen ? '▶' : '▼';
 }
 
 async function toggleFavorite(id){
@@ -1493,14 +1510,66 @@ function showGlobalToast(msg){
   setTimeout(()=>{ t.style.opacity='0'; }, 2500);
 }
 
+// ── VIDEO CACHE ──────────────────────────────────────────────
+const VIDEO_CACHE_KEY = 'mendelson_videos_v1';
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+function saveVideoCache(videos){
+  try {
+    localStorage.setItem(VIDEO_CACHE_KEY, JSON.stringify({ ts: Date.now(), videos }));
+  } catch(e){ console.warn('Cache save failed:', e); }
+}
+
+function loadVideoCache(){
+  try {
+    const raw = localStorage.getItem(VIDEO_CACHE_KEY);
+    if(!raw) return null;
+    const { ts, videos } = JSON.parse(raw);
+    if(Date.now() - ts > CACHE_TTL_MS) return null; // expired
+    return { videos, ts };
+  } catch(e){ return null; }
+}
+
+function showCacheBanner(ts){
+  const banner = document.getElementById('cache-banner');
+  const dateEl = document.getElementById('cache-date');
+  const d = new Date(ts);
+  dateEl.textContent = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) + ' at ' + d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  banner.style.display='flex';
+}
+
+function hideCacheBanner(){
+  document.getElementById('cache-banner').style.display='none';
+}
+
+async function forceRefresh(){
+  localStorage.removeItem(VIDEO_CACHE_KEY);
+  document.getElementById('main-ui').style.display='none';
+  document.getElementById('loading-wrap').style.display='block';
+  document.getElementById('loading-msg').textContent='Refreshing from YouTube…';
+  document.getElementById('loading-sub').textContent='';
+  await loadVideos();
+}
+
+async function loadVideos(){
+  const cached = loadVideoCache();
+  if(cached){
+    showCacheBanner(cached.ts);
+    return cached.videos;
+  }
+  hideCacheBanner();
+  const videos = await fetchAllVideos();
+  saveVideoCache(videos);
+  return videos;
+}
+
 async function init(){
   try {
-    // Load videos, aliases, and collections in parallel
-    const [_, videos] = await Promise.all([loadAliases(), fetchAllVideos(), loadCollections()]);
+    // Load videos (from cache if available), aliases, and collections in parallel
+    const [_, videos] = await Promise.all([loadAliases(), loadVideos(), loadCollections()]);
     allVideos = videos;
     document.getElementById('loading-msg').textContent='Extracting names…';
     buildGlobalNameIndex(allVideos);
-    // Apply aliases AFTER both videos and aliases are loaded
     applyAliasesToAll();
     buildSelects(); buildStats(); buildYearGrid();
     filtered=sortVids([...allVideos],'date-desc'); render();

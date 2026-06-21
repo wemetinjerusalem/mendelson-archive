@@ -181,6 +181,87 @@ input[type="text"]:focus, select:focus { border-color:var(--gold); box-shadow:0 
 .nm-canonical-name { color:var(--canonical-text); font-weight:600; flex:1; font-size:0.85rem; }
 .nm-undo { font-size:0.75rem; color:var(--yt-red); background:none; border:none; cursor:pointer; font-family:'Source Sans 3',sans-serif; flex-shrink:0; }
 
+/* ── COLLECTIONS ── */
+.col-create-btn { padding:7px 16px; background:var(--dark-brown); color:var(--gold-light); border:none; border-radius:8px; font-family:'Source Sans 3',sans-serif; font-size:0.82rem; font-weight:600; cursor:pointer; transition:opacity 0.15s; }
+.col-create-btn:hover { opacity:0.85; }
+.col-card { background:var(--card-bg); border:1px solid var(--border); border-radius:12px; margin-bottom:1rem; overflow:hidden; transition:box-shadow 0.2s,border-color 0.2s; }
+.col-card:hover { box-shadow:0 4px 18px rgba(92,61,46,0.08); border-color:#C8B99A; }
+.col-card-header { padding:1.1rem 1.25rem 0.75rem; }
+.col-card-title { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:500; color:var(--dark-brown); margin-bottom:4px; }
+.col-card-desc { font-size:0.875rem; color:var(--muted); margin-bottom:0.75rem; line-height:1.5; }
+.col-card-people { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:0.75rem; }
+.col-card-meta { font-size:0.75rem; color:var(--muted); display:flex; align-items:center; gap:12px; }
+.col-fav-btn { background:none; border:none; cursor:pointer; font-size:0.82rem; color:var(--muted); font-family:'Source Sans 3',sans-serif; display:flex; align-items:center; gap:4px; padding:0; transition:color 0.15s; }
+.col-fav-btn:hover { color:var(--yt-red); }
+.col-fav-btn.faved { color:var(--yt-red); }
+.col-edit-btn { background:none; border:none; cursor:pointer; font-size:0.78rem; color:var(--gold); font-family:'Source Sans 3',sans-serif; margin-left:auto; }
+.col-clips { border-top:1px solid var(--border); }
+.col-clip-row { display:flex; align-items:baseline; gap:10px; padding:8px 1.25rem; border-bottom:0.5px solid var(--border); font-size:0.85rem; }
+.col-clip-row:last-child { border-bottom:none; }
+.col-clip-time { font-family:'Playfair Display',serif; font-weight:600; color:var(--gold); min-width:42px; flex-shrink:0; font-size:0.8rem; }
+.col-clip-label { color:var(--brown); flex:1; line-height:1.4; }
+.col-clip-video { font-size:0.75rem; color:var(--muted); flex-shrink:0; max-width:300px; line-height:1.4; }
+.col-clip-link { text-decoration:none; color:inherit; display:contents; }
+.col-clip-link:hover .col-clip-label { color:var(--yt-red); }
+.col-clip-cover { display:flex; width:100%; padding:0.875rem 1.25rem; background:var(--dark-brown); font-size:0.875rem; color:var(--gold-light); font-weight:600; border-bottom:1px solid var(--border); text-decoration:none; align-items:flex-start; gap:10px; }
+.col-clip-cover:hover { background:#3d2418; }
+.col-clip-cover .cover-label { font-size:0.68rem; text-transform:uppercase; letter-spacing:1px; opacity:0.55; margin-bottom:2px; }
+.col-clip-cover .cover-body { flex:1; min-width:0; }
+.col-clip-cover .cover-ts { font-size:0.8rem; opacity:0.7; margin-right:8px; }
+.col-clip-cover .cover-title { font-family:'Playfair Display',serif; font-size:0.95rem; line-height:1.4; }
+.col-clip-cover .cover-video { font-size:0.75rem; opacity:0.55; margin-top:3px; line-height:1.4; font-weight:400; }
+.col-editor-header { display:flex; align-items:center; gap:1rem; margin-bottom:1.25rem; }
+.col-back-btn { background:none; border:none; font-family:'Source Sans 3',sans-serif; font-size:0.875rem; color:var(--muted); cursor:pointer; }
+.col-back-btn:hover { color:var(--brown); }
+.col-editor-form { background:var(--warm-white); border:1px solid var(--border); border-radius:12px; padding:1.25rem; }
+.col-field { margin-bottom:1rem; }
+.col-field label { display:block; font-size:0.72rem; text-transform:uppercase; letter-spacing:1px; color:var(--muted); font-weight:600; margin-bottom:6px; }
+.col-clips-list { display:flex; flex-direction:column; gap:4px; margin-top:6px; }
+.col-clip-item { display:flex; align-items:center; gap:8px; background:var(--card-bg); border:1px solid var(--border); border-radius:8px; padding:8px 10px; cursor:grab; }
+.col-clip-item:active { cursor:grabbing; }
+.col-clip-item.drag-over { border-color:var(--gold); background:var(--highlight); }
+.col-clip-drag { color:var(--border); font-size:16px; flex-shrink:0; }
+.col-clip-info { flex:1; min-width:0; }
+.col-clip-info .clip-ts { font-size:0.72rem; color:var(--gold); font-weight:600; }
+.col-clip-info .clip-lbl { font-size:0.82rem; color:var(--brown); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.col-clip-info .clip-vid { font-size:0.72rem; color:var(--muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.col-clip-remove { background:none; border:none; cursor:pointer; color:var(--muted); font-size:16px; flex-shrink:0; line-height:1; }
+.col-clip-remove:hover { color:var(--yt-red); }
+.col-cover-star { background:none; border:none; cursor:pointer; color:var(--border); font-size:16px; flex-shrink:0; }
+.col-cover-star.active { color:var(--gold); }
+.col-save-btn { padding:9px 24px; background:var(--dark-brown); color:var(--gold-light); border:none; border-radius:8px; font-family:'Source Sans 3',sans-serif; font-size:0.875rem; font-weight:600; cursor:pointer; }
+.col-save-btn:hover { opacity:0.85; }
+.col-delete-btn { padding:9px 16px; background:none; color:var(--yt-red); border:1px solid var(--yt-red); border-radius:8px; font-family:'Source Sans 3',sans-serif; font-size:0.875rem; cursor:pointer; }
+.col-editor-msg { font-size:0.82rem; color:var(--canonical-text); margin-top:0.75rem; min-height:18px; }
+/* Save-to-collection button on timestamps */
+.ts-save-btn { display:inline-flex; align-items:center; gap:3px; background:none; border:none; cursor:pointer; font-size:0.72rem; color:var(--muted); padding:2px 4px; border-radius:4px; transition:color 0.12s; font-family:'Source Sans 3',sans-serif; }
+.ts-save-btn:hover { color:var(--gold); }
+.ts-save-btn.saved { color:var(--gold); }
+/* Save clip modal */
+.modal-overlay { display:none; position:fixed; top:0;left:0;right:0;bottom:0; background:rgba(0,0,0,0.5); z-index:200; align-items:center; justify-content:center; }
+.modal-overlay.open { display:flex; }
+.modal { background:var(--card-bg); border-radius:14px; padding:1.5rem; width:90%; max-width:420px; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+.modal h3 { font-family:'Playfair Display',serif; font-size:1.1rem; margin-bottom:0.5rem; }
+.modal p { font-size:0.85rem; color:var(--muted); margin-bottom:1rem; line-height:1.5; }
+.modal-clip-preview { background:var(--tag-bg); border-radius:8px; padding:0.75rem 1rem; margin-bottom:1rem; font-size:0.85rem; }
+.modal-clip-preview .clip-ts { font-weight:600; color:var(--gold); font-size:0.8rem; }
+.modal-clip-preview .clip-lbl { color:var(--brown); }
+.modal-clip-preview .clip-vid { color:var(--muted); font-size:0.78rem; }
+.modal-col-list { display:flex; flex-direction:column; gap:6px; margin-bottom:1rem; max-height:200px; overflow-y:auto; }
+.modal-col-option { display:flex; align-items:center; gap:10px; padding:8px 12px; border:1px solid var(--border); border-radius:8px; cursor:pointer; transition:all 0.12s; }
+.modal-col-option:hover { border-color:var(--gold); background:var(--highlight); }
+.modal-col-option.selected { border-color:var(--dark-brown); background:var(--dark-brown); color:white; }
+.modal-col-option.selected .modal-col-name { color:var(--gold-light); }
+.modal-col-name { font-size:0.875rem; font-weight:500; }
+.modal-col-count { font-size:0.75rem; color:var(--muted); margin-left:auto; }
+.modal-col-option.selected .modal-col-count { color:rgba(255,255,255,0.5); }
+.modal-new-col { display:flex; gap:8px; margin-bottom:1rem; }
+.modal-new-col input { flex:1; padding-left:10px; font-size:0.875rem; }
+.modal-actions { display:flex; gap:8px; justify-content:flex-end; }
+.modal-cancel { padding:8px 16px; background:none; border:1px solid var(--border); border-radius:8px; font-family:'Source Sans 3',sans-serif; font-size:0.875rem; cursor:pointer; color:var(--muted); }
+.modal-add { padding:8px 20px; background:var(--dark-brown); color:var(--gold-light); border:none; border-radius:8px; font-family:'Source Sans 3',sans-serif; font-size:0.875rem; font-weight:600; cursor:pointer; }
+.modal-add:disabled { opacity:0.4; cursor:default; }
+
 footer { text-align:center; padding:2rem; font-size:0.78rem; color:var(--muted); border-top:1px solid var(--border); margin-top:2rem; }
 @media(max-width:600px){
   .stats-bar{grid-template-columns:repeat(2,1fr);}
@@ -206,9 +287,14 @@ footer { text-align:center; padding:2rem; font-size:0.78rem; color:var(--muted);
   </div>
   <div id="main-ui" style="display:none">
     <div class="stats-bar" id="stats-bar"></div>
+    <div id="cache-banner" style="display:none;background:var(--warm-white);border:1px solid var(--border);border-radius:8px;padding:8px 14px;margin-bottom:1rem;font-size:0.8rem;color:var(--muted);display:flex;align-items:center;justify-content:space-between;gap:10px">
+      <span>📦 Showing cached data from <strong id="cache-date"></strong></span>
+      <button onclick="forceRefresh()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 10px;font-size:0.78rem;cursor:pointer;font-family:'Source Sans 3',sans-serif;color:var(--brown)">🔄 Refresh now</button>
+    </div>
     <div class="tabs">
       <button class="tab active" onclick="switchTab('search')">🔍 Search</button>
       <button class="tab" onclick="switchTab('year')">📅 Browse by Year</button>
+      <button class="tab" onclick="switchTab('collections')">📚 Collections</button>
       <button class="tab" onclick="switchTab('names')">✏️ Name Manager</button>
     </div>
 
@@ -258,6 +344,66 @@ footer { text-align:center; padding:2rem; font-size:0.78rem; color:var(--muted);
       <div class="results-header"><span class="results-count" id="year-results-count">Select a year above to browse</span></div>
       <div id="year-video-list"></div>
       <div id="year-load-more"></div>
+    </div>
+
+    <!-- COLLECTIONS -->
+    <div id="panel-collections" style="display:none">
+      <!-- Public view: browse collections -->
+      <div id="col-public">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem">
+          <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted);font-weight:600" id="col-count">Loading collections…</div>
+          <button class="col-create-btn" id="col-create-btn" onclick="showCreateCollection()" style="display:none">+ New Collection</button>
+        </div>
+        <div id="col-how-to" style="display:none;background:var(--highlight);border:1px solid var(--highlight-border);border-radius:10px;padding:0.875rem 1rem;margin-bottom:1rem;font-size:0.85rem;color:var(--brown);line-height:1.6">
+          <strong>How to build a collection:</strong><br>
+          1. Go to <strong>Search</strong> and find videos<br>
+          2. Open a video's full description — each timestamp has a 🔖 bookmark icon<br>
+          3. Click 🔖 to save that clip to a collection<br>
+          4. Come back here to view, name, and edit your collections
+        </div>
+        <div id="col-list"></div>
+      </div>
+
+      <!-- Create/Edit collection (password protected) -->
+      <div id="col-editor" style="display:none">
+        <div class="col-editor-header">
+          <button class="col-back-btn" onclick="hideEditor()">← Back to Collections</button>
+          <div id="col-editor-title-display" style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:500"></div>
+        </div>
+        <div class="col-editor-form">
+          <div class="col-field">
+            <label>Collection title</label>
+            <input type="text" id="col-title" placeholder="e.g. Jeffrey Mendelson fixing things" style="padding-left:12px" />
+          </div>
+          <div class="col-field">
+            <label>Description</label>
+            <input type="text" id="col-desc-input" placeholder="A short description of this collection…" style="padding-left:12px" />
+          </div>
+          <div class="col-field">
+            <label>Clips in this collection <span style="color:var(--muted);font-weight:400">— drag to reorder</span></label>
+            <div id="col-clips-list" class="col-clips-list"></div>
+            <div id="col-no-clips" style="font-size:0.85rem;color:var(--muted);padding:1rem 0">No clips yet — go to Search and click the bookmark icon on any timestamp to add it here.</div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:1rem">
+            <button class="col-save-btn" onclick="saveCollection()">Save Collection</button>
+            <button class="col-delete-btn" id="col-delete-btn" onclick="deleteCollection()" style="display:none">Delete</button>
+          </div>
+          <div class="col-editor-msg" id="col-editor-msg"></div>
+        </div>
+      </div>
+
+      <!-- Password gate for creating collections -->
+      <div id="col-pw-gate" class="pw-gate" style="display:none">
+        <h3>🔒 Create Collection</h3>
+        <p>Enter the password to create or edit collections.</p>
+        <div class="pw-row">
+          <input type="password" id="col-pw-input" placeholder="Password…" onkeydown="if(event.key==='Enter')checkColPassword()" />
+          <button class="pw-submit" onclick="checkColPassword()">Enter</button>
+        </div>
+        <div class="pw-error" id="col-pw-error"></div>
+        <button class="pw-hint-link" onclick="toggleColHint()">Forgot your password?</button>
+        <div class="pw-hint-text" id="col-pw-hint">Hint: Who was your first pet?</div>
+      </div>
     </div>
 
     <!-- NAME MANAGER -->
@@ -318,6 +464,24 @@ footer { text-align:center; padding:2rem; font-size:0.78rem; color:var(--muted);
     </div>
   </div>
 </div>
+
+<!-- Save clip modal -->
+<div class="modal-overlay" id="save-modal" onclick="if(event.target===this)closeSaveModal()">
+  <div class="modal">
+    <h3>📌 Save Clip to Collection</h3>
+    <div class="modal-clip-preview" id="modal-clip-preview"></div>
+    <p>Choose a collection or create a new one:</p>
+    <div class="modal-col-list" id="modal-col-list"></div>
+    <div class="modal-new-col">
+      <input type="text" id="modal-new-col-name" placeholder="Or type a new collection name…" style="padding-left:10px" />
+    </div>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeSaveModal()">Cancel</button>
+      <button class="modal-add" id="modal-add-btn" onclick="confirmSaveClip()">Add to Collection</button>
+    </div>
+  </div>
+</div>
+
 <footer>Mendelson Family Archive &nbsp;·&nbsp; Powered by YouTube Data API v3</footer>
 
 <script>
@@ -384,6 +548,7 @@ function isCanonicalWithMerges(resolvedName) {
 
 // ── Utilities ──
 function escHtml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function normTs(ts){ return ts.replace(/^0+([0-9])/, '$1'); }
 function parseYear(t) { const m=t.match(/\b(19[4-9]\d|20[0-2]\d)\b/); return m?m[0]:null; }
 function parseReel(t) { const m=t.match(/reel\s*#?\s*(\d+)/i); return m?m[1]:null; }
 function tsToSecs(ts) { const p=ts.split(':').map(Number); return p.length===3?p[0]*3600+p[1]*60+p[2]:p[0]*60+p[1]; }
@@ -746,14 +911,27 @@ function renderNameManager(){
 }
 
 // ── YouTube API ──
-async function ytFetch(ep){
-  const r=await fetch(`https://www.googleapis.com/youtube/v3/${ep}&key=${YT_KEY}`);
-  if(!r.ok) throw new Error(`YouTube API error ${r.status}`);
-  return r.json();
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+async function ytFetch(ep, retries=3){
+  for(let attempt=0; attempt<=retries; attempt++){
+    const r=await fetch(`https://www.googleapis.com/youtube/v3/${ep}&key=${YT_KEY}`);
+    if(r.ok) return r.json();
+    if((r.status===429||r.status===403)&&attempt<retries){
+      const wait=Math.pow(2,attempt+1)*1000; // 2s, 4s, 8s
+      document.getElementById('loading-sub').textContent=`Rate limit — retrying in ${wait/1000}s (attempt ${attempt+1}/${retries})…`;
+      await sleep(wait);
+      document.getElementById('loading-sub').textContent='';
+      continue;
+    }
+    throw new Error(`YouTube API error ${r.status}`);
+  }
 }
+
 async function fetchAllVideos(){
   let videos=[],token='',page=0;
   do {
+    if(page>0) await sleep(500); // pace search.list pages to avoid burst rate limits
     const data=await ytFetch(`search?channelId=${CHANNEL_ID}&part=id&type=video&maxResults=50&order=date${token?'&pageToken='+token:''}`);
     token=data.nextPageToken||'';
     const ids=data.items.map(i=>i.id.videoId).join(',');
@@ -871,10 +1049,7 @@ function personTagHTML(p, q, pr){
 function cardHTML(v,q,pr){
   pr=pr||'';
   const peopleTags=v.people.slice(0,20).map(p=>personTagHTML(p,q,pr)).join('')+(v.people.length>20?`<span class="person-tag">+${v.people.length-20}</span>`:'');
-  const matchTs=q?v.timestamps.filter(t=>t.label.toLowerCase().includes(q)):[];
-  const tsShow=(matchTs.length?matchTs:v.timestamps).slice(0,4);
   const preview=v.timestamps.length?v.timestamps.slice(0,2).map(t=>t.label).join(' · '):v.description.replace(/\n+/g,' ').slice(0,160);
-  const tsHtml=tsShow.map(t=>`<a class="ts-btn" href="https://www.youtube.com/watch?v=${v.id}&t=${t.secs}s" target="_blank" onclick="event.stopPropagation()"><span class="ts-time">${t.ts}</span><span>${escHtml(t.label.slice(0,50))}${t.label.length>50?'…':''}</span></a>`).join('');
   return `<div class="video-card" id="card-${v.id}">
     <div class="card-top" onclick="toggleDesc('${v.id}')">
       <div class="card-header">
@@ -882,21 +1057,21 @@ function cardHTML(v,q,pr){
         <div class="card-meta">
           ${v.year?`<span class="year-badge">${v.year}</span>`:''}
           ${v.reel?`<span class="reel-badge">Reel ${v.reel}</span>`:''}
+          <a class="watch-btn" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" onclick="event.stopPropagation()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Watch
+          </a>
         </div>
       </div>
       ${v.people.length?`<div class="people-list">${peopleTags}</div>`:''}
       <div class="card-preview">${escHtml(preview)}${preview.length>=160?'…':''}</div>
       <div class="card-actions">
-        <a class="watch-btn" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" onclick="event.stopPropagation()">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>Watch on YouTube
-        </a>
-        ${tsHtml}
         <button class="expand-toggle" id="toggle-${v.id}" onclick="event.stopPropagation();toggleDesc('${v.id}')">▼ Full description</button>
       </div>
     </div>
     <div class="card-desc" id="desc-${v.id}">${buildDescHTML(v)}</div>
   </div>`;
 }
+
 function buildDescHTML(v){
   if(!v.description) return '<p class="desc-text">No description available.</p>';
   const lines=v.description.split('\n');
@@ -907,7 +1082,15 @@ function buildDescHTML(v){
     if(textBuffer.length) s+=`<div class="desc-text">${textBuffer.map(escHtml).join('<br>')}</div>`;
     if(tsBuffer.length){
       s+='<div class="desc-timestamps">';
-      for(const t of tsBuffer) s+=`<div class="desc-ts-row"><span class="desc-ts-time">${t.ts}</span><span class="desc-ts-label">${escHtml(t.label)}</span><a class="desc-ts-link" href="https://www.youtube.com/watch?v=${v.id}&t=${t.secs}s" target="_blank">▶ Jump</a></div>`;
+      for(const t of tsBuffer){
+        // Store clip data safely as JSON in a data attribute to avoid quote escaping issues
+        const clipData = JSON.stringify({videoId:v.id, videoTitle:v.title, secs:t.secs, ts:t.ts, label:t.label, people:v.people});
+        const safeData = escHtml(clipData);
+        const bookmarkBtn = (isColUnlocked() || isUnlocked())
+          ? `<button class="ts-save-btn" data-clip='${safeData}' onclick="event.stopPropagation();event.preventDefault();openSaveModalFromBtn(this)" title="Save to collection">🔖</button>`
+          : '';
+        s+=`<div class="desc-ts-row"><span class="desc-ts-time">${t.ts}</span><span class="desc-ts-label">${escHtml(t.label)}</span><a class="desc-ts-link" href="https://www.youtube.com/watch?v=${v.id}&t=${t.secs}s" target="_blank">▶ Jump</a>${bookmarkBtn}</div>`;
+      }
       s+='</div>';
     }
     s+='</div>'; html+=s; tsBuffer=[]; textBuffer=[];
@@ -969,10 +1152,17 @@ function isUnlocked() {
 
 function switchTab(tab){
   document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',
-    (i===0&&tab==='search')||(i===1&&tab==='year')||(i===2&&tab==='names')));
+    (i===0&&tab==='search')||(i===1&&tab==='year')||(i===2&&tab==='collections')||(i===3&&tab==='names')));
   document.getElementById('panel-search').style.display=tab==='search'?'block':'none';
   document.getElementById('panel-year').style.display=tab==='year'?'block':'none';
+  document.getElementById('panel-collections').style.display=tab==='collections'?'block':'none';
   document.getElementById('panel-names').style.display=tab==='names'?'block':'none';
+  if(tab==='collections'){
+    document.getElementById('col-public').style.display='block';
+    document.getElementById('col-editor').style.display='none';
+    document.getElementById('col-pw-gate').style.display='none';
+    renderCollections();
+  }
   if(tab==='names'){
     if(isUnlocked()){
       document.getElementById('pw-gate').style.display='none';
@@ -985,14 +1175,414 @@ function switchTab(tab){
     }
   }
 }
+// ── COLLECTIONS ──────────────────────────────────────────────
+const COL_DB = 'https://mendelson-archive-66844-default-rtdb.firebaseio.com/collections';
+const COL_SESSION = 'mendelson_col_unlocked';
+
+let collections = {}; // id -> collection object
+let pendingClip = null; // clip being saved
+let selectedColId = null; // selected collection in modal
+let editingColId = null; // collection being edited
+let dragSrcIdx = null;
+
+// ── Firebase collections ──
+async function loadCollections(){
+  try {
+    const r = await fetch(COL_DB + '.json');
+    if(r.ok){ const d = await r.json(); collections = d || {}; }
+  } catch(e){ console.warn('Could not load collections:', e); }
+}
+
+async function saveCollectionToFB(id, col){
+  try {
+    await fetch(`${COL_DB}/${id}.json`, {
+      method:'PUT', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(col)
+    });
+  } catch(e){ console.warn('Could not save collection:', e); }
+}
+
+async function deleteCollectionFromFB(id){
+  try {
+    await fetch(`${COL_DB}/${id}.json`, { method:'DELETE' });
+  } catch(e){ console.warn('Could not delete collection:', e); }
+}
+
+async function updateFavorite(id, count){
+  try {
+    await fetch(`${COL_DB}/${id}/favorites.json`, {
+      method:'PUT', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(count)
+    });
+  } catch(e){}
+}
+
+// ── Password ──
+function isColUnlocked(){ return sessionStorage.getItem(COL_SESSION)==='1'; }
+
+function checkColPassword(){
+  const val = document.getElementById('col-pw-input').value.trim();
+  if(val.toLowerCase()==='daphne'){
+    sessionStorage.setItem(COL_SESSION,'1');
+    document.getElementById('col-pw-gate').style.display='none';
+    document.getElementById('col-public').style.display='block';
+    document.getElementById('col-create-btn').style.display='block';
+    document.getElementById('col-pw-input').value='';
+    document.getElementById('col-pw-error').textContent='';
+    showCreateCollection();
+  } else {
+    document.getElementById('col-pw-error').textContent='Incorrect password.';
+    document.getElementById('col-pw-input').value='';
+  }
+}
+
+function toggleColHint(){
+  const h=document.getElementById('col-pw-hint');
+  h.style.display=h.style.display==='block'?'none':'block';
+}
+
+// ── Show/hide editor ──
+function showCreateCollection(){
+  if(!isColUnlocked()){
+    document.getElementById('col-public').style.display='none';
+    document.getElementById('col-editor').style.display='none';
+    document.getElementById('col-pw-gate').style.display='block';
+    return;
+  }
+  editingColId = null;
+  document.getElementById('col-title').value='';
+  document.getElementById('col-desc-input').value='';
+  document.getElementById('col-delete-btn').style.display='none';
+  document.getElementById('col-editor-title-display').textContent='New Collection';
+  document.getElementById('col-editor-msg').textContent='';
+  renderEditorClips([]);
+  document.getElementById('col-public').style.display='none';
+  document.getElementById('col-editor').style.display='block';
+}
+
+function editCollection(id){
+  if(!isColUnlocked()) return;
+  editingColId = id;
+  const col = collections[id];
+  document.getElementById('col-title').value = col.title||'';
+  document.getElementById('col-desc-input').value = col.description||'';
+  document.getElementById('col-delete-btn').style.display='inline-block';
+  document.getElementById('col-editor-title-display').textContent = col.title||'Edit Collection';
+  document.getElementById('col-editor-msg').textContent='';
+  renderEditorClips(col.clips||[]);
+  document.getElementById('col-public').style.display='none';
+  document.getElementById('col-editor').style.display='block';
+}
+
+function hideEditor(){
+  document.getElementById('col-editor').style.display='none';
+  document.getElementById('col-public').style.display='block';
+  renderCollections();
+}
+
+// ── Editor clip list ──
+let editorClips = [];
+
+function renderEditorClips(clips){
+  editorClips = [...clips];
+  const list = document.getElementById('col-clips-list');
+  const empty = document.getElementById('col-no-clips');
+  if(!editorClips.length){ list.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  list.innerHTML = editorClips.map((c,i)=>`
+    <div class="col-clip-item" draggable="true" data-idx="${i}"
+      ondragstart="dragStart(event,${i})" ondragover="dragOver(event,${i})" ondrop="dragDrop(event,${i})" ondragend="dragEnd()">
+      <span class="col-clip-drag">⠿</span>
+      <button class="col-cover-star ${c.isCover?'active':''}" onclick="toggleCover(${i})" title="Set as cover clip">★</button>
+      <div class="col-clip-info">
+        <div class="clip-ts">${escHtml(c.ts)}</div>
+        <div class="clip-lbl">${escHtml(c.label)}</div>
+        <div class="clip-vid">${escHtml(c.videoTitle||'')}</div>
+      </div>
+      <button class="col-clip-remove" onclick="removeEditorClip(${i})" title="Remove">×</button>
+    </div>`).join('');
+}
+
+function toggleCover(idx){
+  editorClips = editorClips.map((c,i)=>({...c, isCover: i===idx ? !c.isCover : false}));
+  renderEditorClips(editorClips);
+}
+
+function removeEditorClip(idx){
+  editorClips.splice(idx,1);
+  renderEditorClips(editorClips);
+}
+
+// Drag to reorder
+function dragStart(e,idx){ dragSrcIdx=idx; e.dataTransfer.effectAllowed='move'; }
+function dragOver(e,idx){ e.preventDefault(); document.querySelectorAll('.col-clip-item').forEach((el,i)=>el.classList.toggle('drag-over',i===idx)); }
+function dragDrop(e,idx){
+  e.preventDefault();
+  if(dragSrcIdx===null||dragSrcIdx===idx) return;
+  const moved = editorClips.splice(dragSrcIdx,1)[0];
+  editorClips.splice(idx,0,moved);
+  renderEditorClips(editorClips);
+}
+function dragEnd(){ document.querySelectorAll('.col-clip-item').forEach(el=>el.classList.remove('drag-over')); dragSrcIdx=null; }
+
+// ── Save collection ──
+async function saveCollection(){
+  const title = document.getElementById('col-title').value.trim();
+  if(!title){ document.getElementById('col-editor-msg').textContent='Please enter a title.'; return; }
+  const description = document.getElementById('col-desc-input').value.trim();
+  // Gather people from all clips
+  const people = [...new Set(editorClips.flatMap(c=>c.people||[]))];
+  const col = { title, description, people, clips: editorClips, favorites: 0, createdAt: Date.now() };
+  if(editingColId){ col.favorites = collections[editingColId]?.favorites||0; col.createdAt = collections[editingColId]?.createdAt||Date.now(); }
+  const id = editingColId || 'col_' + Date.now();
+  collections[id] = col;
+  await saveCollectionToFB(id, col);
+  document.getElementById('col-editor-msg').textContent='✓ Saved!';
+  setTimeout(()=>hideEditor(), 800);
+}
+
+// ── Delete collection ──
+async function deleteCollection(){
+  if(!editingColId) return;
+  if(!confirm('Delete this collection? This cannot be undone.')) return;
+  delete collections[editingColId];
+  await deleteCollectionFromFB(editingColId);
+  hideEditor();
+}
+
+// ── Render public collections ──
+function renderCollections(){
+  const cols = Object.entries(collections).sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0));
+  const countEl = document.getElementById('col-count');
+  const listEl = document.getElementById('col-list');
+  const createBtn = document.getElementById('col-create-btn');
+
+  // Show/hide create button based on unlock status
+  createBtn.style.display = isColUnlocked() ? 'inline-block' : 'none';
+  // Show unlock link if not unlocked
+  if(!isColUnlocked()){
+    countEl.innerHTML = `${cols.length} collection${cols.length!==1?'s':''} &nbsp;·&nbsp; <button onclick="promptColUnlock()" style="background:none;border:none;cursor:pointer;font-size:0.72rem;color:var(--gold);font-family:'Source Sans 3',sans-serif;text-decoration:underline">Curator login</button>`;
+  } else {
+    countEl.textContent = `${cols.length} collection${cols.length!==1?'s':''}`;
+  }
+
+  // Show how-to tip when logged in
+  const howTo = document.getElementById('col-how-to');
+  if(howTo) howTo.style.display = isColUnlocked() ? 'block' : 'none';
+
+  if(!cols.length){
+    listEl.innerHTML = isColUnlocked()
+      ? '<div class="empty">No collections yet — search for videos, open a description, and click 🔖 on any timestamp to start building one.</div>'
+      : '<div class="empty">No collections yet.</div>';
+    return;
+  }
+
+  listEl.innerHTML = cols.map(([id,col])=>{
+    const peopleTags = ''; // People tags removed from collections
+    const coverClip = (col.clips||[]).find(c=>c.isCover) || col.clips?.[0];
+    const coverHtml = coverClip
+      ? `<a class="col-clip-cover" href="https://www.youtube.com/watch?v=${escHtml(coverClip.videoId)}&t=${coverClip.secs}s" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0;margin-top:2px"><path d="M8 5v14l11-7z"/></svg>
+          <div class="cover-body">
+            <div class="cover-label">Featured clip</div>
+            <div class="cover-ts">${escHtml(coverClip.ts)}</div>
+            <div class="cover-title">${escHtml(coverClip.label)}</div>
+            <div class="cover-video">${escHtml(coverClip.videoTitle||'')}</div>
+          </div>
+        </a>` : '';
+    const clipsHtml = (col.clips||[]).filter(c=>!c.isCover).map(c=>`
+      <a class="col-clip-link" href="https://www.youtube.com/watch?v=${escHtml(c.videoId)}&t=${c.secs}s" target="_blank">
+        <div class="col-clip-row">
+          <span class="col-clip-time">${escHtml(normTs(c.ts))}</span>
+          <span class="col-clip-label">${escHtml(c.label)}</span>
+          <span class="col-clip-video">${escHtml(c.videoTitle||'')}</span>
+        </div>
+      </a>`).join('');
+    const favCount = col.favorites||0;
+    const editBtn = isColUnlocked() ? `<button class="col-edit-btn" onclick="editCollection('${escHtml(id)}')">✏️ Edit Collection</button>` : '';
+    return `<div class="col-card" id="colcard-${escHtml(id)}">
+      <div class="col-card-header" onclick="toggleCollection('${escHtml(id)}')" style="cursor:pointer">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <div class="col-card-title">${escHtml(col.title)}</div>
+          <span class="col-toggle-icon" id="coltoggle-${escHtml(id)}" style="color:var(--gold);font-size:1.1rem;flex-shrink:0">▼</span>
+        </div>
+        ${col.description?`<div class="col-card-desc">${escHtml(col.description)}</div>`:''}
+        <div class="col-card-meta">
+          <span>${(col.clips||[]).length} clip${(col.clips||[]).length!==1?'s':''}</span>
+          <button class="col-fav-btn" onclick="event.stopPropagation();toggleFavorite('${escHtml(id)}')" id="fav-${escHtml(id)}">
+            ❤️ ${favCount}
+          </button>
+          ${editBtn.replace('onclick="', 'onclick="event.stopPropagation();')}
+        </div>
+      </div>
+      <div class="col-clips-body" id="colbody-${escHtml(id)}">
+        ${coverHtml}
+        <div class="col-clips">${clipsHtml}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleCollection(id){
+  const body = document.getElementById('colbody-'+id);
+  const icon = document.getElementById('coltoggle-'+id);
+  if(!body) return;
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if(icon) icon.textContent = isOpen ? '▶' : '▼';
+}
+
+async function toggleFavorite(id){
+  const col = collections[id];
+  if(!col) return;
+  col.favorites = (col.favorites||0) + 1;
+  await updateFavorite(id, col.favorites);
+  document.getElementById('fav-'+id).textContent = '❤️ ' + col.favorites;
+}
+
+function promptColUnlock(){
+  document.getElementById('col-public').style.display='none';
+  document.getElementById('col-pw-gate').style.display='block';
+}
+
+// ── Save clip modal ──
+function openSaveModalFromBtn(btn){
+  try {
+    const clip = JSON.parse(btn.getAttribute('data-clip'));
+    openSaveModal(clip.videoId, clip.videoTitle, clip.secs, clip.ts, clip.label, clip.people);
+  } catch(e){ console.error('Failed to parse clip data:', e); }
+}
+
+function openSaveModal(videoId, videoTitle, secs, ts, label, people){
+  pendingClip = { videoId, videoTitle, secs, ts, label, people, isCover:false };
+  selectedColId = null;
+  // Preview
+  document.getElementById('modal-clip-preview').innerHTML =
+    `<div class="clip-ts">${escHtml(ts)}</div>
+     <div class="clip-lbl">${escHtml(label)}</div>
+     <div class="clip-vid">${escHtml(videoTitle)}</div>`;
+  // Collection list
+  const cols = Object.entries(collections).sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0));
+  const list = document.getElementById('modal-col-list');
+  if(!cols.length){
+    list.innerHTML='<div style="font-size:0.82rem;color:var(--muted);padding:8px 0">No collections yet — type a name below to create one.</div>';
+  } else {
+    list.innerHTML = cols.map(([id,col])=>`
+      <div class="modal-col-option" onclick="selectModalCol('${escHtml(id)}')" id="mcol-${escHtml(id)}">
+        <span class="modal-col-name">${escHtml(col.title)}</span>
+        <span class="modal-col-count">${(col.clips||[]).length} clips</span>
+      </div>`).join('');
+  }
+  document.getElementById('modal-new-col-name').value='';
+  document.getElementById('save-modal').classList.add('open');
+}
+
+function selectModalCol(id){
+  selectedColId = selectedColId===id ? null : id;
+  document.querySelectorAll('.modal-col-option').forEach(el=>{
+    el.classList.toggle('selected', el.id==='mcol-'+id && selectedColId===id);
+  });
+}
+
+function closeSaveModal(){
+  document.getElementById('save-modal').classList.remove('open');
+  pendingClip = null; selectedColId = null;
+}
+
+async function confirmSaveClip(){
+  if(!pendingClip) return;
+  const newName = document.getElementById('modal-new-col-name').value.trim();
+  let targetId = selectedColId;
+
+  if(newName && !selectedColId){
+    // Create new collection
+    targetId = 'col_' + Date.now();
+    collections[targetId] = { title:newName, description:'', people:[], clips:[], favorites:0, createdAt:Date.now() };
+  }
+  if(!targetId){ return; }
+
+  collections[targetId].clips = [...(collections[targetId].clips||[]), pendingClip];
+  // Update people tags
+  const allPeople = [...new Set([...(collections[targetId].people||[]), ...(pendingClip.people||[])])];
+  collections[targetId].people = allPeople;
+  await saveCollectionToFB(targetId, collections[targetId]);
+  closeSaveModal();
+  // Show feedback
+  showGlobalToast(`✓ Clip saved to "${collections[targetId].title}"`);
+}
+
+function showGlobalToast(msg){
+  let t = document.getElementById('global-toast');
+  if(!t){
+    t = document.createElement('div');
+    t.id='global-toast';
+    t.style.cssText='position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--dark-brown);color:var(--gold-light);padding:10px 20px;border-radius:8px;font-size:0.875rem;z-index:300;transition:opacity 0.3s;font-family:Source Sans 3,sans-serif';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg; t.style.opacity='1';
+  setTimeout(()=>{ t.style.opacity='0'; }, 2500);
+}
+
+// ── VIDEO CACHE ──────────────────────────────────────────────
+const VIDEO_CACHE_KEY = 'mendelson_videos_v1';
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+function saveVideoCache(videos){
+  try {
+    localStorage.setItem(VIDEO_CACHE_KEY, JSON.stringify({ ts: Date.now(), videos }));
+  } catch(e){ console.warn('Cache save failed:', e); }
+}
+
+function loadVideoCache(){
+  try {
+    const raw = localStorage.getItem(VIDEO_CACHE_KEY);
+    if(!raw) return null;
+    const { ts, videos } = JSON.parse(raw);
+    if(Date.now() - ts > CACHE_TTL_MS) return null; // expired
+    return { videos, ts };
+  } catch(e){ return null; }
+}
+
+function showCacheBanner(ts){
+  const banner = document.getElementById('cache-banner');
+  const dateEl = document.getElementById('cache-date');
+  const d = new Date(ts);
+  dateEl.textContent = d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) + ' at ' + d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  banner.style.display='flex';
+}
+
+function hideCacheBanner(){
+  document.getElementById('cache-banner').style.display='none';
+}
+
+async function forceRefresh(){
+  localStorage.removeItem(VIDEO_CACHE_KEY);
+  document.getElementById('main-ui').style.display='none';
+  document.getElementById('loading-wrap').style.display='block';
+  document.getElementById('loading-msg').textContent='Refreshing from YouTube…';
+  document.getElementById('loading-sub').textContent='';
+  await loadVideos();
+}
+
+async function loadVideos(){
+  const cached = loadVideoCache();
+  if(cached){
+    showCacheBanner(cached.ts);
+    return cached.videos;
+  }
+  hideCacheBanner();
+  const videos = await fetchAllVideos();
+  saveVideoCache(videos);
+  return videos;
+}
+
 async function init(){
   try {
-    // Load videos and aliases in parallel for speed
-    const [_, videos] = await Promise.all([loadAliases(), fetchAllVideos()]);
+    // Load videos (from cache if available), aliases, and collections in parallel
+    const [_, videos] = await Promise.all([loadAliases(), loadVideos(), loadCollections()]);
     allVideos = videos;
     document.getElementById('loading-msg').textContent='Extracting names…';
     buildGlobalNameIndex(allVideos);
-    // Apply aliases AFTER both videos and aliases are loaded
     applyAliasesToAll();
     buildSelects(); buildStats(); buildYearGrid();
     filtered=sortVids([...allVideos],'date-desc'); render();

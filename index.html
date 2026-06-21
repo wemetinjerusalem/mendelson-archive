@@ -911,14 +911,27 @@ function renderNameManager(){
 }
 
 // ── YouTube API ──
-async function ytFetch(ep){
-  const r=await fetch(`https://www.googleapis.com/youtube/v3/${ep}&key=${YT_KEY}`);
-  if(!r.ok) throw new Error(`YouTube API error ${r.status}`);
-  return r.json();
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+async function ytFetch(ep, retries=3){
+  for(let attempt=0; attempt<=retries; attempt++){
+    const r=await fetch(`https://www.googleapis.com/youtube/v3/${ep}&key=${YT_KEY}`);
+    if(r.ok) return r.json();
+    if((r.status===429||r.status===403)&&attempt<retries){
+      const wait=Math.pow(2,attempt+1)*1000; // 2s, 4s, 8s
+      document.getElementById('loading-sub').textContent=`Rate limit — retrying in ${wait/1000}s (attempt ${attempt+1}/${retries})…`;
+      await sleep(wait);
+      document.getElementById('loading-sub').textContent='';
+      continue;
+    }
+    throw new Error(`YouTube API error ${r.status}`);
+  }
 }
+
 async function fetchAllVideos(){
   let videos=[],token='',page=0;
   do {
+    if(page>0) await sleep(500); // pace search.list pages to avoid burst rate limits
     const data=await ytFetch(`search?channelId=${CHANNEL_ID}&part=id&type=video&maxResults=50&order=date${token?'&pageToken='+token:''}`);
     token=data.nextPageToken||'';
     const ids=data.items.map(i=>i.id.videoId).join(',');
